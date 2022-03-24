@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  aca-py-idunion:
+    image: aries-cloudagent-ssi-demo
+    container_name: aca-py-idunion
+    volumes:
+      - ssi_demo_aca_py_idunion:/home/indy/.indy_client
+    ports:
+      - "8030:8030"
+    environment:
+      ACAPY_LABEL: "SSI DEMO ACA PY - IDUNION"
+      ACAPY_GENESIS_URL: "https://idu.cloudcompass.ca/genesis"
+      ACAPY_ENDPOINT: $AGENT_ENDPOINT_URL
+      ACAPY_OUTBOUND_TRANSPORT: "http"
+
+    command: start --seed $AGENT_SEED --auto-provision --wallet-type indy --wallet-key $AGENT_WALLET_KEY --wallet-name $AGENT_WALLET_NAME --auto-store-credential --inbound-transport http 0.0.0.0 8030 --admin 0.0.0.0 8091 --admin-api-key $AGENT_ADMIN_KEY --multitenant --multitenant-admin --jwt-secret $JWT_SECRET    
+    restart: always
+
+  backend-idunion:
+    container_name: backend-idunion
+    build: ./controller
+    env_file: .env
+    depends_on:
+      - aca-py-idunion
+    restart: always
+    ports:
+      - "8088:80"
+
+  frontend-idunion:
+    container_name: frontend-idunion
+    build:
+#      context: frontend/
+      context: react-ssi/
+    ports:
+#      - "8098:8080"
+      - "8098:3000"
+
+    depends_on:
+      - backend-idunion
+
+volumes:
+  ssi_demo_aca_py_idunion:

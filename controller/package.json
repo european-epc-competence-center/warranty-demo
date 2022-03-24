@@ -1,0 +1,19 @@
+{
+  "name": "ssi-demo",
+  "version": "1.0.0",
+  "description": "Simple ACAPY Demo Controller",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "pg": "node src/playground.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "nodemon": "nodemon src/index.js"
+  },
+  "author": "Artur Philipp",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "express": "^4.17.1",
+    "socket.io": "^4.4.1"
+  }
+}
