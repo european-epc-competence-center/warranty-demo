@@ -425,6 +425,8 @@ acapyManufacturer.on(ACAPY_CLIENT_EVENTS.PRESENTATION_RECEIVED, async data => {
             getRandomGdti('warranty')
           ])
 
+          console.log(verificationResult)
+
           const attributesToIssue = {
             'warranty-id': warrantyId,
             'valid-through': validThrough,
