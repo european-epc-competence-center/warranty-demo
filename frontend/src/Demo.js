@@ -287,11 +287,10 @@ const MainAccordion = props => {
                     wallet.
                   </p>
                   <p>
-                    Now imagine that you carried your bought product home.{' '}
-                    <b>
-                      TODO: Demo for how the Warranty flow starts. Scan QR Code
-                      on packaging?
-                    </b>
+                    Now imagine that you carried your bought product home. On
+                    the product (packaging) there is a QR Code for obtaining the
+                    warranty certificate. Click the button below to continue to
+                    that QR Code.
                   </p>
                   <div class='d-flex justify-content-center'>
                     <NextStateButton
@@ -486,7 +485,7 @@ const MainAccordion = props => {
                 </Accordion.Header>
                 <Accordion.Body>
                   <p>The manufacturer found your Warranty to be valid!</p>
-                  <p> 
+                  <p>
                     You may now order a pick up of your tool. To this end, you
                     can present your address data from your base ID credential.
                   </p>
