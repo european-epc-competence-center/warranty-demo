@@ -395,7 +395,7 @@ acapyManufacturer.on(ACAPY_CLIENT_EVENTS.PRESENTATION_RECEIVED, async data => {
     try {
       responseDemoStateJson.state =
         DEMO_STATE.EBON_PRESENTATION_SENT_TO_MANUFACTURER
-      verificationResult = await acapyManufacturer.validateCustomProof(
+      verificationResult = await acapyManufacturer.validateProof(
         data.presentation_exchange_id
       )
       //TODO: Check if verification was successfull (for Demo ok without explicit check)  
@@ -413,7 +413,7 @@ acapyManufacturer.on(ACAPY_CLIENT_EVENTS.PRESENTATION_RECEIVED, async data => {
       async verificationResult => {
         try {
           let validThrough = new Date(
-            verificationResult.find(
+            verificationResult['RequestedAttributes'].find(
               attrObject => attrObject['attr_name'] === 'date'
             )['attr_value']
           )
@@ -425,24 +425,22 @@ acapyManufacturer.on(ACAPY_CLIENT_EVENTS.PRESENTATION_RECEIVED, async data => {
             getRandomGdti('warranty')
           ])
 
-          console.log(verificationResult)
-
           const attributesToIssue = {
             'warranty-id': warrantyId,
             'valid-through': validThrough,
-            'item-id': verificationResult.find(
+            'item-id': verificationResult['RequestedAttributes'].find(
               attrObject => attrObject['attr_name'] === 'item-id'
             )['attr_value'],
-            'item-name': verificationResult.find(
+            'item-name': verificationResult['RequestedAttributes'].find(
               attrObject => attrObject['attr_name'] === 'item-name'
             )['attr_value'],
-            'vendor-id': verificationResult.find(
+            'vendor-id': verificationResult['RequestedAttributes'].find(
               attrObject => attrObject['attr_name'] === 'vendor-id'
             )['attr_value'],
-            'vendor-name': verificationResult.find(
+            'vendor-name': verificationResult['RequestedAttributes'].find(
               attrObject => attrObject['attr_name'] === 'vendor-name'
             )['attr_value'],
-            'eBon-id': verificationResult.find(
+            'eBon-id': verificationResult['RequestedAttributes'].find(
               attrObject => attrObject['attr_name'] === 'eBon-id'
             )['attr_value'],
             'claim-endpoint': warrantyId + '?linktype=linktype'
@@ -722,7 +720,8 @@ controllerApp.post('/api/setDemoState', async (req, res) => {
           ],
           [{ cred_def_id: PRODUCT_CERTIFICATE_CRED_DEF_ID }]
       )
-      proofRequest.requested_attributes['error-description']={
+      
+      proofRequest['proof_request']['requested_attributes']['error-description']={
         name: 'Malfunction:',
         restrictions: []
       }
