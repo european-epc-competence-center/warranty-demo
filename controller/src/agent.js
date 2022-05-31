@@ -309,7 +309,8 @@ class AcapyClient extends EventEmitter {
     return Buffer.from(JSON.stringify(result)).toString('base64');
   }
 
-  async buildCustomProofRequest(proofRequestName, connectionID, attributes) {
+  // expect attributes to be a list of strings with the attribute names
+  async buildCustomProofRequest(proofRequestName, connectionID, attributes, restrictions) {
     this.throwIfAgentIsNotReady();
 
     if (!proofRequestName) {
@@ -324,12 +325,17 @@ class AcapyClient extends EventEmitter {
       throw `Attributesmust not be empty!`;
     }
 
+    attributes2Request['RequestedAttributes'] = {
+        names: attributes,
+        restrictions: restrictions
+      }
+
     let proofRequestTemplate = {
       connection_id: connectionID,
       proof_request: {
         name: proofRequestName,
         version: "1.0",
-        requested_attributes: attributes,
+        requested_attributes: attributes2Request,
         requested_predicates: {},
       },
       trace: false,

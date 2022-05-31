@@ -299,26 +299,20 @@ acapyManufacturer.on(
       DEMO_STATE.CONNECTION_ESTABLISHED_WITH_MANUFACTURER
 
     setTimeout(async () => {
-      const attributes2Request = {}
-      ;[
-        'item-name',
-        'item-id',
-        'vendor-name',
-        'vendor-id',
-        'eBon-id',
-        'date',
-        'location-id'
-      ].forEach(attr => {
-        attributes2Request[attr] = {
-          name: attr,
-          restrictions: [{ cred_def_id: EBON_CRED_DEF_ID }]
-        }
-      })
 
       const proofRequest = await acapyManufacturer.buildCustomProofRequest(
         'eBon',
         responseDemoStateJson.data.manufacturer_connection_id,
-        attributes2Request
+        [
+            'item-name',
+            'item-id',
+            'vendor-name',
+            'vendor-id',
+            'eBon-id',
+            'date',
+            'location-id'
+          ],
+          [{ cred_def_id: EBON_CRED_DEF_ID }]
       )
       
       await acapyManufacturer.sendProofRequest(proofRequest)
@@ -373,25 +367,20 @@ acapyManufacturer.on(ACAPY_CLIENT_EVENTS.PRESENTATION_RECEIVED, async data => {
       DEMO_STATE.PRODUCT_CERTIFICATE_PRESENTATION_VERIFIED_BY_MANUFACTURER
 
     setTimeout(async () => {
-      const attributes2Request = {}
-      ;[
-        'firstName',
-        'familyName',
-        'addressStreet',
-        'addressZipCode',
-        'addressCity',
-        'addressCountry'
-      ].forEach(attr => {
-        attributes2Request[attr] = {
-          name: attr,
-          restrictions: [{ cred_def_id: BDR_ONLINE_ID_CRED_DEF_ID }]
-        }
-      })
+
 
       const proofRequest = await acapyManufacturer.buildCustomProofRequest(
         'BaseID',
         responseDemoStateJson.data.manufacturer_connection_id,
-        attributes2Request
+        [
+            'firstName',
+            'familyName',
+            'addressStreet',
+            'addressZipCode',
+            'addressCity',
+            'addressCountry'
+          ],
+          [{ cred_def_id: BDR_ONLINE_ID_CRED_DEF_ID }]
       )
 
       await acapyManufacturer.sendProofRequest(proofRequest)
@@ -716,32 +705,25 @@ controllerApp.post('/api/setDemoState', async (req, res) => {
       DEMO_STATE.WARRANTY_CASE_FLOW_INITIATED_BY_USER
 
     setTimeout(async () => {
-      const attributes2Request = {}
-      ;[
-        'warranty-id',
-        'valid-through',
-        'item-id',
-        'item-name',
-        'vendor-id',
-        'vendor-name',
-        'eBon-id'
-      ].forEach(attr => {
-        attributes2Request[attr] = {
-          name: attr,
-          restrictions: [{ cred_def_id: PRODUCT_CERTIFICATE_CRED_DEF_ID }]
-        }
-      })
-
-      attributes2Request['error-description'] = {
-        name: 'Malfunction:',
-        restrictions: []
-      }
 
       const proofRequest = await acapyManufacturer.buildCustomProofRequest(
         'Productcertificate and Error Description',
         userStateResponseJson.data.manufacturer_connection_id,
-        attributes2Request
+        [
+            'warranty-id',
+            'valid-through',
+            'item-id',
+            'item-name',
+            'vendor-id',
+            'vendor-name',
+            'eBon-id'
+          ],
+          [{ cred_def_id: PRODUCT_CERTIFICATE_CRED_DEF_ID }]
       )
+      proofRequest.requested_attributes['error-description']={
+        name: 'Malfunction:',
+        restrictions: []
+      }
 
       await acapyManufacturer.sendProofRequest(proofRequest)
       userStateResponseJson.state =
