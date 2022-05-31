@@ -325,6 +325,8 @@ class AcapyClient extends EventEmitter {
       throw `Attributesmust not be empty!`;
     }
 
+    let attributes2Request = {};
+
     attributes2Request['RequestedAttributes'] = {
         names: attributes,
         restrictions: restrictions
