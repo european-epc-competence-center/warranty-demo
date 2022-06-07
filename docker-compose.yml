@@ -8,6 +8,7 @@ services:
       - ssi_demo_aca_py_idunion:/home/indy/.indy_client
     ports:
       - "8030:8030"
+      - "8091:8091"
     environment:
       ACAPY_LABEL: "SSI DEMO ACA PY - IDUNION"
       ACAPY_GENESIS_URL: "https://idu.cloudcompass.ca/genesis"
@@ -30,10 +31,8 @@ services:
   frontend-idunion:
     container_name: frontend-idunion
     build:
-#      context: frontend/
-      context: react-ssi/
+      context: frontend/
     ports:
-#      - "8098:8080"
       - "8098:3000"
 
     depends_on:
@@ -41,3 +40,5 @@ services:
 
 volumes:
   ssi_demo_aca_py_idunion:
+    name: ssi_demo_aca_py_idunion
+

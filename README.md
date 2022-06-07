@@ -6,6 +6,35 @@ Story line: https://hackmd.io/@Echsecutor/ryrf4ODFK
 
 # Setup
 
+Create an `.env` file setting the variables like
+
+```
+AGENT_SEED=
+
+AGENT_ADMIN_KEY=
+JWT_SECRET=
+
+AGENT_WALLET_NAME=AgentBaseWallet01
+AGENT_WALLET_KEY=
+
+AGENT_ADMIN_URL=http://aca-py-idunion:8091
+AGENT_ENDPOINT_URL=
+
+STORE_WEBHOOK_PORT=8080
+MANUFACTURER_WEBHOOK_PORT=8081
+
+CONTROLLER_PORT=80
+
+STORE_SUBWALLET_NAME=VendorWalletName
+MANUFACTURER_SUBWALLET_NAME=ManufacturerWalletName
+
+#Cred Def ID of Bundesdruckerei Test System
+#Issue a credential here: https://ssi-issuer.tir.budru.de/ssi-test/test.html
+BDR_ONLINE_ID_CRED_DEF_ID=ELMkCtYoz86qnJKeQqrL1M:3:CL:5574:Online-ID Demo
+
+```
+
+
 ## ACA-PY
 ### Version
 This demo was developed and tested with ACA-PY version v0.7.3-rc0.

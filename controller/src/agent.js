@@ -133,6 +133,8 @@ class AcapyClient extends EventEmitter {
     const revealed_attrs = res.data.presentation.requested_proof.revealed_attrs;
     const self_attested_attrs = res.data.presentation.requested_proof.self_attested_attrs;
 
+    console.log(res.data.presentation.requested_proof)
+
     let result = []
 
     for (const [attrName, attrObject] of Object.entries(revealed_attrs)) {
@@ -324,6 +326,8 @@ class AcapyClient extends EventEmitter {
     if (!attributes) {
       throw `Attributesmust not be empty!`;
     }
+
+    let attributes2Request = {};
 
     attributes2Request['RequestedAttributes'] = {
         names: attributes,
