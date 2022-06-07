@@ -165,7 +165,7 @@ const acapyBDR = new AcapyClient(
   agentAdminURL,
   agentEndpointURL,
   agentAdminKey,
-  manufacturerSubwalletName
+  bdrSubwalletName
 )
 acapyBDR.listenOnWebhookPort(bdrWebhookPort)
 connectAgent(acapyBDR)
