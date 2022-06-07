@@ -188,6 +188,7 @@ const MainAccordion = props => {
               >
                 <AppStoreLogo width='150' />
               </a>
+{ /*
               <p>
                 In the end of the demo, will use{' '}
                 <a
@@ -195,12 +196,13 @@ const MainAccordion = props => {
                   target='_blank'
                   rel='noreferrer'
                 >
-                  a demo bei Bundesdruckerei
+                  an base-ID issued by Bundesdruckerei
                 </a>{' '}
-                to issue a BaseID credential. This BaseID will be derived from
-                your govenrmental ID card in the near future.
+                This BaseID will be derived from
+                your real govenrmental ID card in the near future.
               </p>
-              {/*<QRCode value={props.bdrQrCodeValue} />*/}
+              <QRCode value={props.bdrQrCodeValue} />
+              */}
             </div>
           </Accordion.Body>
         </Accordion.Item>
@@ -488,6 +490,7 @@ const MainAccordion = props => {
                   <p>
                     You may now order a pick up of your tool. To this end, you
                     can present your address data from your base ID credential.
+                    This step demonstrates how personaldata can be imported from your wallet if and only if you consent.
                   </p>
                 </Accordion.Body>
               </Accordion.Item>
