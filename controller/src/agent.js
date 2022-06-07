@@ -549,63 +549,7 @@ class AcapyClient extends EventEmitter {
     return res.data;
   }
 
-  async issueKaufbelegCredential(connectionID) {
-    this.throwIfAgentIsNotReady()
-
-    const schemaID = await this.getSchemaIdByNameFromWallet("Kaufbeleg");
-
-    const credentialDefinitionID = await this.getCredDefBySchemaIdFromWallet(schemaID)
-
-    let connection_id;
-    if (connectionID) {
-      connection_id = connectionID
-    } else {
-      connection_id = await this.getLastCreatedConnectionID()
-    }
-
-    let credentialTemplate = {
-      auto_remove: true,
-      comment: "mycomment",
-      connection_id: connection_id,
-      cred_def_id: credentialDefinitionID,
-      credential_proposal: {
-        "@type": "issue-credential/1.0/credential-preview",
-
-        attributes: [
-          {
-            name: "Kaufort",
-            value: "hier",
-          },
-          {
-            name: "Kaufdatum",
-            value: "heute",
-          },
-          {
-            name: "Kaufsache",
-            value: "Bohrhammer",
-          },
-          {
-            name: "Kaufpreis",
-            value: "teuer",
-          },
-        ],
-      },
-      issuer_did: this.issuerDid,
-      schema_id: schemaID,
-      schema_issuer_did: this.issuerDid,
-      schema_name: "Kaufbeleg",
-      schema_version: "1.0",
-      trace: false,
-    };
-
-    const res = await this.axios.post(ACAPY_ADMIN_PATHS.CREDENTIAL_ISSUE, credentialTemplate).catch(error => {
-      console.log("Error while issuing Credential: " + error.response.statusText)
-    })
-
-    return res.data;
-  }
-
-  async getCredentialDefinitionByIdFromLedger(credDefId) {
+    async getCredentialDefinitionByIdFromLedger(credDefId) {
     this.throwIfAgentIsNotReady();
 
     credDefId = encodeURIComponent(credDefId)
