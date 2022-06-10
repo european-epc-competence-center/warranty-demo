@@ -12,15 +12,25 @@ const storeSubwalletName =
   process.env.STORE_SUBWALLET_NAME || 'VendorWalletName'
 const manufacturerSubwalletName =
   process.env.MANUFACTURER_SUBWALLET_NAME || 'ManufacturerWalletName'
-let storeWebhookPort = process.env.STORE_WEBHOOK_PORT || 7000
+const bdrSubwalletName = 
+  process.env.BDR_MOCK_SUBWALLET_NAME || 'BDRWalletName'
 
+let storeWebhookPort = process.env.STORE_WEBHOOK_PORT || 7000
 if (!Number.isInteger(storeWebhookPort)) {
   storeWebhookPort = parseInt(storeWebhookPort)
 }
+
 let manufacturerWebhookPort = process.env.MANUFACTURER_WEBHOOK_PORT || 7001
 if (!Number.isInteger(manufacturerWebhookPort)) {
   manufacturerWebhookPort = parseInt(manufacturerWebhookPort)
 }
+
+let bdrWebhookPort = process.env.BDR_MOCK_PORT || 7002
+if (!Number.isInteger(bdrWebhookPort)) {
+  bdrWebhookPort = parseInt(bdrWebhookPort)
+}
+
+
 let controllerPort = process.env.CONTROLLER_PORT || 4000
 if (!Number.isInteger(controllerPort)) {
   controllerPort = parseInt(controllerPort)
@@ -38,6 +48,8 @@ console.log(`STORE_SUBWALLET_NAME=${storeSubwalletName}`)
 console.log(`STORE_WEBHOOK_PORT=${storeWebhookPort}`)
 console.log(`MANFUCATURER_SUBWALLET_NAME=${manufacturerSubwalletName}`)
 console.log(`MANUFACTURER_WEBHOOK_PORT=${manufacturerWebhookPort}`)
+console.log(`BDR_MOCK_SUBWALLET_NAME=${bdrSubwalletName}`)
+console.log(`BDR_MOCK_WEBHOOK_PORT=${bdrWebhookPort}`)
 console.log(`CONTROLLER_PORT=${controllerPort}`)
 console.log(`BDR_ONLINE_ID_CRED_DEF_ID=${BDR_ONLINE_ID_CRED_DEF_ID}`)
 
@@ -146,6 +158,17 @@ const acapyManufacturer = new AcapyClient(
 )
 acapyManufacturer.listenOnWebhookPort(manufacturerWebhookPort)
 connectAgent(acapyManufacturer)
+
+// Setup BDR Mock Agent
+const acapyBDR = new AcapyClient(
+  'AcapyBDR',
+  agentAdminURL,
+  agentEndpointURL,
+  agentAdminKey,
+  bdrSubwalletName
+)
+acapyBDR.listenOnWebhookPort(bdrWebhookPort)
+connectAgent(acapyBDR)
 
 acapyStore.on(ACAPY_CLIENT_EVENTS.CONNECTED, async () => {
   //Prepare Schemas and Credential Definitions for acapyStore
