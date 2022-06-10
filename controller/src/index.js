@@ -911,7 +911,8 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
       'Started Demo Flow for demo_user_id:' +
         storeConnectionInvitation.connection_id
     )
-
+    
+    /*
     // get connection Invitation for BDR Mock
     setTimeout(async () => {
       try {
@@ -940,7 +941,7 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
         )
       }
       console.log(responseDemoStateJson)
-    }, 5000)
+    }, 5000)*/
     
 
   } else {

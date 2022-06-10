@@ -195,14 +195,16 @@ const MainAccordion = props => {
                 This BaseID will be derived from
                 your real govenrmental ID card in the near future.
               </p>
+              {/*
               <div class='d-flex justify-content-center'>
               <div className='qrCode-wrapper'>
                 <a href={props.bdrQrCodeValue}>
                   <QRCode value={props.bdrQrCodeValue} />
                 </a>
               </div>
+              </div> */}
             </div>
-            </div>
+            
           </Accordion.Body>
         </Accordion.Item>
         <Accordion.Item eventKey='0'>
