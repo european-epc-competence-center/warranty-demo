@@ -908,7 +908,7 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     )
     const bdrDidCommInvitation =
       'didcomm://aries_connection_invitation' + bdrInvitationUrlWithoutHost
-      console.log(storeDidCommInvitation)
+      console.log(bdrDidCommInvitation)
 
     responseDemoStateJson = {
       state: DEMO_STATE.REQUESTED_CONNECTION_INVITATION_FROM_STORE,
