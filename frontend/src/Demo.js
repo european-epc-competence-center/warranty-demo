@@ -92,6 +92,7 @@ const Demo = () => {
         setActiveTab('0')
         setActiveSubTab('0')
         setActiveQRCode(recievedData.data.store_invitation_url)
+        setBdrQrCodeValue(recievedData.data.bdr_invitation_url)
         break
       case 'CONNECTION_ESTABLISHED_WITH_STORE':
       case 'EBON_CREDENTIAL_OFFER_SENT_BY_STORE':
@@ -187,22 +188,20 @@ const MainAccordion = props => {
                 rel='noreferrer'
               >
                 <AppStoreLogo width='150' />
-              </a>
-{ /*
+              </a>              
               <p>
-                In the end of the demo, will use{' '}
-                <a
-                  href='https://ssi-issuer.tir.budru.de/ssi-test/test.html'
-                  target='_blank'
-                  rel='noreferrer'
-                >
-                  an base-ID issued by Bundesdruckerei
-                </a>{' '}
+                In the end of the demo, will use
+                an base-ID issued by Bundesdruckerei
                 This BaseID will be derived from
                 your real govenrmental ID card in the near future.
               </p>
-              <QRCode value={props.bdrQrCodeValue} />
-              */}
+              <div class='d-flex justify-content-center'>
+              <div className='qrCode-wrapper'>
+                <a href={props.bdrQrCodeValue}>
+                  <QRCode value={props.bdrQrCodeValue} />
+                </a>
+              </div>
+            </div>
             </div>
           </Accordion.Body>
         </Accordion.Item>

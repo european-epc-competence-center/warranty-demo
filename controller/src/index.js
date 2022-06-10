@@ -217,6 +217,51 @@ acapyManufacturer.on(ACAPY_CLIENT_EVENTS.CONNECTED, async () => {
 
 // ---------------------------- DEMO FLOW START ------------------------------
 
+// Issuance of Base ID from BDR Mock
+acapyBDR.on(
+  ACAPY_CLIENT_EVENTS.NEW_CONNECTION_ESTABLISHED,
+  async connectionData => {
+    console.log(
+      `Acapy BDR: connection established: ${connectionData.connection_id}`
+    )
+
+    const responseDemoStateJson = getDemoUserState(connectionData.connection_id)
+    if (!responseDemoStateJson) {
+      console.log(
+        'ERROR: Connection established with store by someone who is not known as Demo User'
+      )
+      return
+    }
+
+
+    setTimeout(async () => {
+      try {
+        const attributesToIssue = {
+          'addressZipCode': '50674',
+          'placeOfBirth': 'Germany',
+          'adressCity': 'Cologne',
+          'addressCountry': 'Germany',
+          'addressStreet': 'Aaachener Strasse',
+          'dateOfExpiry': '30092025',
+          'firstName': 'Musterfrau',
+          'familyName': 'Monika',
+          'dateOfBirth': '08081970',
+          'documentType': 'ID'
+        }
+
+        const credentialOffer = await acapyBDR.buildCredentialOffer(
+          connectionData.connection_id,
+          BDR_ONLINE_ID_CRED_DEF_ID,
+          attributesToIssue
+        )
+        await acapyBDR.issueCredential(credentialOffer)
+      } catch (error) {
+        console.log(`Error while sending eID credential offer: ${error}`)
+      }
+    }, 5000)
+  }
+)
+
 acapyStore.on(
   ACAPY_CLIENT_EVENTS.NEW_CONNECTION_ESTABLISHED,
   async connectionData => {
@@ -815,31 +860,39 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     !demoUserStates[demoUserID].state ||
     demoUserStates[demoUserID].state === DEMO_STATE.UNKNOWN
   ) {
+    
     //No idea who is calling. -->Start Demo Flow from beginning
 
-    //get connection invitation for store
+    //get connection invitation for store and for BDR Mock
 
-    let storeConnectionInvitation
+    let storeConnectionInvitation;
+    let bdrConnectionInvitation;
 
     try {
-      storeConnectionInvitation = await acapyStore.getNewConnectionInvitation(
-        demoUserID
-      )
+      storeConnectionInvitation = await acapyStore.getNewConnectionInvitation(demoUserID)
+      bdrConnectionInvitation = await acapyBDR.getNewConnectionInvitation(demoUserID)
     } catch (error) {
       console.log(
-        `Error while trying to get connection invitation for new Demo Flow: ${error}`
+        `Error while trying to get connection invitations for new Demo Flow: ${error}`
       )
     }
 
     if (!storeConnectionInvitation) {
-      console.log('Did not retreive a connection invitation.')
-      res.status(500).send('Did not retreive a connection invitation.')
+      console.log('Did not retreive a store connection invitation.')
+      res.status(500).send('Did not retreive a store connection invitation.')
+      return
+    }
+
+    if (!bdrConnectionInvitation) {
+      console.log('Did not retreive a bdr connection invitation.')
+      res.status(500).send('Did not retreive a bdr connection invitation.')
       return
     }
 
     const storeInvitationURL = storeConnectionInvitation.invitation_url
+    const bdrInvitationURL = bdrConnectionInvitation.invitation_url
 
-    //build DIDComm URL
+    //build DIDComm URL for store
     const storeInvitationUrlWithoutHost = storeInvitationURL.substring(
       storeInvitationURL.indexOf('?'),
       storeInvitationURL.length
@@ -847,13 +900,23 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     const storeDidCommInvitation =
       'didcomm://aries_connection_invitation' + storeInvitationUrlWithoutHost
 
+    //build DIDComm URL for BDR Mock
+    const bdrInvitationUrlWithoutHost = bdrInvitationURL.substring(
+      storeInvitationURL.indexOf('?'),
+      storeInvitationURL.length
+    )
+    const bdrDidCommInvitation =
+      'didcomm://aries_connection_invitation' + bdrInvitationUrlWithoutHost
+
     responseDemoStateJson = {
       state: DEMO_STATE.REQUESTED_CONNECTION_INVITATION_FROM_STORE,
       data: {
         //connection ID of store connection will be used as demo user identifier
         demo_user_id: storeConnectionInvitation.connection_id,
         store_connection_id: storeConnectionInvitation.connection_id,
-        store_invitation_url: storeDidCommInvitation
+        store_invitation_url: storeDidCommInvitation,
+        bdr_connection_id: bdrConnectionInvitation.connection_id,
+        bdr_invitation_url: bdrDidCommInvitation
       }
     }
 
