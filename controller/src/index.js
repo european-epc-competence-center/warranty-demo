@@ -939,7 +939,9 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
           `Error while loading invitation from acapyBDR: ${error}.`
         )
       }
+      console.log(responseDemoStateJson)
     }, 5000)
+    
 
   } else {
     // we know the demo user --> just (re)send the (probably because of webhooks) prepared data without state change.
