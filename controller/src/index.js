@@ -902,8 +902,8 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
 
     //build DIDComm URL for BDR Mock
     const bdrInvitationUrlWithoutHost = bdrInvitationURL.substring(
-      storeInvitationURL.indexOf('?'),
-      storeInvitationURL.length
+      bdrInvitationURL.indexOf('?'),
+      bdrInvitationURL.length
     )
     const bdrDidCommInvitation =
       'didcomm://aries_connection_invitation' + bdrInvitationUrlWithoutHost
