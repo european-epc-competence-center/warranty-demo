@@ -863,14 +863,12 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     
     //No idea who is calling. -->Start Demo Flow from beginning
 
-    //get connection invitation for store and for BDR Mock
+    //get connection invitation for store 
 
     let storeConnectionInvitation;
-    let bdrConnectionInvitation;
-
+    
     try {
       storeConnectionInvitation = await acapyStore.getNewConnectionInvitation(demoUserID)
-      bdrConnectionInvitation = await acapyBDR.getNewConnectionInvitation(demoUserID)
     } catch (error) {
       console.log(
         `Error while trying to get connection invitations for new Demo Flow: ${error}`
@@ -883,14 +881,8 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
       return
     }
     
-    if (!bdrConnectionInvitation) {
-      console.log('Did not retreive a bdr connection invitation.')
-      res.status(500).send('Did not retreive a bdr connection invitation.')
-      return
-    }
 
     const storeInvitationURL = storeConnectionInvitation.invitation_url
-    const bdrInvitationURL = bdrConnectionInvitation.invitation_url
 
     //build DIDComm URL for store
     const storeInvitationUrlWithoutHost = storeInvitationURL.substring(
@@ -901,14 +893,6 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
       'didcomm://aries_connection_invitation' + storeInvitationUrlWithoutHost
       
       
-    //build DIDComm URL for BDR Mock
-    const bdrInvitationUrlWithoutHost = bdrInvitationURL.substring(
-      bdrInvitationURL.indexOf('?'),
-      bdrInvitationURL.length
-    )
-    const bdrDidCommInvitation =
-      'didcomm://aries_connection_invitation' + bdrInvitationUrlWithoutHost
-      console.log(bdrDidCommInvitation)
       
     responseDemoStateJson = {
       state: DEMO_STATE.REQUESTED_CONNECTION_INVITATION_FROM_STORE,
@@ -917,7 +901,6 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
         demo_user_id: storeConnectionInvitation.connection_id,
         store_connection_id: storeConnectionInvitation.connection_id,
         store_invitation_url: storeDidCommInvitation,
-        /*bdr_invitation_url: bdrDidCommInvitation*/
       }
     }
 
@@ -928,6 +911,36 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
       'Started Demo Flow for demo_user_id:' +
         storeConnectionInvitation.connection_id
     )
+
+    // get connection Invitation for BDR Mock
+    setTimeout(async () => {
+      try {
+        const bdrConnectionInvitation = await acapyBDR.getNewConnectionInvitation(
+          userStateResponseJson.data.demo_user_id
+        )
+        const bdrInvitationURL =
+         bdrConnectionInvitation.invitation_url
+
+        //build DIDComm URL
+        const bdrInvitationUrlWithoutHost = bdrInvitationURL.substring(
+          bdrInvitationURL.indexOf('?'),
+          bdrInvitationURL.length
+        )
+        const bdrDidCommInvitation =
+          'didcomm://aries_connection_invitation' +
+          bdrInvitationUrlWithoutHost
+
+        //Update state data
+        userStateResponseJson.data.bdr_connection_id =
+          bdrConnectionInvitation.connection_id
+        userStateResponseJson.data.bdr_invitation_url = bdrDidCommInvitation
+      } catch (error) {
+        console.log(
+          `Error while loading invitation from acapyBDR: ${error}.`
+        )
+      }
+    }, 5000)
+
   } else {
     // we know the demo user --> just (re)send the (probably because of webhooks) prepared data without state change.
     // Frontend needs to know what to do with it because all data including state will be returned.
