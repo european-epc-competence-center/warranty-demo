@@ -916,7 +916,7 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     setTimeout(async () => {
       try {
         const bdrConnectionInvitation = await acapyBDR.getNewConnectionInvitation(
-          userStateResponseJson.data.demo_user_id
+          responseDemoStateJson.data.demo_user_id
         )
         const bdrInvitationURL =
          bdrConnectionInvitation.invitation_url
@@ -931,15 +931,15 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
           bdrInvitationUrlWithoutHost
 
         //Update state data
-        userStateResponseJson.data.bdr_connection_id =
+        responseDemoStateJson.data.bdr_connection_id =
           bdrConnectionInvitation.connection_id
-        userStateResponseJson.data.bdr_invitation_url = bdrDidCommInvitation
+          responseDemoStateJson.data.bdr_invitation_url = bdrDidCommInvitation
       } catch (error) {
         console.log(
           `Error while loading invitation from acapyBDR: ${error}.`
         )
       }
-    }, 10000)
+    }, 5000)
 
   } else {
     // we know the demo user --> just (re)send the (probably because of webhooks) prepared data without state change.
