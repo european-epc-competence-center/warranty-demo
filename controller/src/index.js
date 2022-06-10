@@ -899,6 +899,7 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     )
     const storeDidCommInvitation =
       'didcomm://aries_connection_invitation' + storeInvitationUrlWithoutHost
+      console.log(storeDidCommInvitation)
 
     //build DIDComm URL for BDR Mock
     const bdrInvitationUrlWithoutHost = bdrInvitationURL.substring(
@@ -907,6 +908,7 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     )
     const bdrDidCommInvitation =
       'didcomm://aries_connection_invitation' + bdrInvitationUrlWithoutHost
+      console.log(storeDidCommInvitation)
 
     responseDemoStateJson = {
       state: DEMO_STATE.REQUESTED_CONNECTION_INVITATION_FROM_STORE,
@@ -915,7 +917,6 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
         demo_user_id: storeConnectionInvitation.connection_id,
         store_connection_id: storeConnectionInvitation.connection_id,
         store_invitation_url: storeDidCommInvitation,
-        bdr_connection_id: bdrConnectionInvitation.connection_id,
         bdr_invitation_url: bdrDidCommInvitation
       }
     }
