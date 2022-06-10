@@ -913,6 +913,7 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     )
 
     // get connection Invitation for BDR Mock
+    setTimeout(async () => {
       try {
         const bdrConnectionInvitation = await acapyBDR.getNewConnectionInvitation(
           userStateResponseJson.data.demo_user_id
@@ -938,6 +939,7 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
           `Error while loading invitation from acapyBDR: ${error}.`
         )
       }
+    }, 10000)
 
   } else {
     // we know the demo user --> just (re)send the (probably because of webhooks) prepared data without state change.
