@@ -866,11 +866,11 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     //get connection invitation for store and for BDR Mock
 
     let storeConnectionInvitation;
-    let bdrConnectionInvitation;
+    /*let bdrConnectionInvitation;*/
 
     try {
       storeConnectionInvitation = await acapyStore.getNewConnectionInvitation(demoUserID)
-      bdrConnectionInvitation = await acapyBDR.getNewConnectionInvitation(demoUserID)
+      /*bdrConnectionInvitation = await acapyBDR.getNewConnectionInvitation(demoUserID)*/
     } catch (error) {
       console.log(
         `Error while trying to get connection invitations for new Demo Flow: ${error}`
@@ -882,15 +882,15 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
       res.status(500).send('Did not retreive a store connection invitation.')
       return
     }
-
+    /*
     if (!bdrConnectionInvitation) {
       console.log('Did not retreive a bdr connection invitation.')
       res.status(500).send('Did not retreive a bdr connection invitation.')
       return
-    }
+    }*/
 
     const storeInvitationURL = storeConnectionInvitation.invitation_url
-    const bdrInvitationURL = bdrConnectionInvitation.invitation_url
+    /*const bdrInvitationURL = bdrConnectionInvitation.invitation_url*/
 
     //build DIDComm URL for store
     const storeInvitationUrlWithoutHost = storeInvitationURL.substring(
@@ -899,8 +899,8 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     )
     const storeDidCommInvitation =
       'didcomm://aries_connection_invitation' + storeInvitationUrlWithoutHost
-      console.log(storeDidCommInvitation)
-
+      
+      /*
     //build DIDComm URL for BDR Mock
     const bdrInvitationUrlWithoutHost = bdrInvitationURL.substring(
       bdrInvitationURL.indexOf('?'),
@@ -909,7 +909,7 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     const bdrDidCommInvitation =
       'didcomm://aries_connection_invitation' + bdrInvitationUrlWithoutHost
       console.log(bdrDidCommInvitation)
-
+      */
     responseDemoStateJson = {
       state: DEMO_STATE.REQUESTED_CONNECTION_INVITATION_FROM_STORE,
       data: {
@@ -917,7 +917,7 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
         demo_user_id: storeConnectionInvitation.connection_id,
         store_connection_id: storeConnectionInvitation.connection_id,
         store_invitation_url: storeDidCommInvitation,
-        bdr_invitation_url: bdrDidCommInvitation
+        /*bdr_invitation_url: bdrDidCommInvitation*/
       }
     }
 
