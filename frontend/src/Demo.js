@@ -89,7 +89,7 @@ const Demo = () => {
   const determineTab = recievedData => {
     switch (recievedData.state) {
       case 'REQUESTED_CONNECTION_INVITATION_FROM_STORE_AND_BDR':
-        setActiveTab('0')
+        setActiveTab('-1')
         setActiveSubTab('0')
         setActiveQRCode(recievedData.data.store_invitation_url)
         setBdrQrCodeValue(recievedData.data.bdr_invitation_url)
@@ -162,7 +162,7 @@ const MainAccordion = props => {
   return (
     <div class='container'>
       <Accordion id='outerDemoAccordion' activeKey={props.activeMainKey}>
-        <Accordion.Item eventKey='0'>
+        <Accordion.Item eventKey='-1'>
           <Accordion.Header>Wallet setup and BaseID</Accordion.Header>
           <Accordion.Body>
             <p>
