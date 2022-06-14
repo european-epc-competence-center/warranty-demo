@@ -942,6 +942,7 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     // we know the demo user --> just (re)send the (probably because of webhooks) prepared data without state change.
     // Frontend needs to know what to do with it because all data including state will be returned.
     responseDemoStateJson = getDemoUserState(demoUserID)
+    console.log(responseDemoStateJson)
     console.log(
       'Demo_user_id ' +
         demoUserID +
