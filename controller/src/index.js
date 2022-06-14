@@ -860,7 +860,7 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     !demoUserStates[demoUserID].state ||
     demoUserStates[demoUserID].state === DEMO_STATE.UNKNOWN
   ) {
-    /*
+    
     //No idea who is calling. -->Start Demo Flow from beginning
 
     //get connection invitation for store 
@@ -910,8 +910,8 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     console.log(
       'Started Demo Flow for demo_user_id:' +
         storeConnectionInvitation.connection_id
-    ) */
-
+    ) 
+    /*
     //No idea who is calling. -->Start Demo Flow from beginning
 
     //get connection invitation for BDR MOCK 
@@ -961,7 +961,7 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     console.log(
       'Started Demo Flow for demo_user_id:' +
         bdrConnectionInvitation.connection_id
-    )
+    )*/
     
 
     
