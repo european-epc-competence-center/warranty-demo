@@ -93,6 +93,7 @@ let PRODUCT_CERTIFICATE_CRED_DEF_ID
 
 const DEMO_STATE = Object.freeze({
   UNKNOWN: 'UNKNOWN',
+  ID_CREDENTIAL_OFFER_ACCEPTED: 'ID_CREDENTIAL_OFFER_ACCEPTED',
   REQUESTED_CONNECTION_INVITATION_FROM_STORE:
     'REQUESTED_CONNECTION_INVITATION_FROM_STORE',
   CONNECTION_ESTABLISHED_WITH_STORE: 'CONNECTION_ESTABLISHED_WITH_STORE',
@@ -225,14 +226,13 @@ acapyBDR.on(
       `Acapy BDR: connection established: ${connectionData.connection_id}`
     )
     
-    /*
     const responseDemoStateJson = getDemoUserState(connectionData.connection_id)
     if (!responseDemoStateJson) {
       console.log(
-        'ERROR: Connection established with store by someone who is not known as Demo User'
+        'ERROR: Connection established with bdr by someone who is not known as Demo User'
       )
       return
-    }*/
+    }
 
 
     setTimeout(async () => {
@@ -265,6 +265,12 @@ acapyBDR.on(
     }, 5000)
   }
 )
+
+acapyBDR.on(ACAPY_CLIENT_EVENTS.CREDENTIAL_ISSUED, async connectionID => {
+  console.log(`AcapyBDR: Issued Credential for connection ${connectionID}.`)
+
+  responseDemoStateJson = DEMO_STATE.ID_CREDENTIAL_OFFER_ACCEPTED; 
+})
 
 acapyStore.on(
   ACAPY_CLIENT_EVENTS.NEW_CONNECTION_ESTABLISHED,
@@ -615,6 +621,13 @@ function getDemoUserState (connectionID) {
   //could be connection ID of manufacturer
   for (var key in demoUserStates) {
     if (demoUserStates[key].data.manufacturer_connection_id === connectionID) {
+      return demoUserStates[key]
+    }
+  }
+
+  // could be connection ID of BDR Mock
+  for (var key in demoUserStates) {
+    if (demoUserStates[key].data.bdr_connection_id === connectionID) {
       return demoUserStates[key]
     }
   }
