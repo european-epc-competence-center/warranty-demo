@@ -88,7 +88,7 @@ const Demo = () => {
 
   const determineTab = recievedData => {
     switch (recievedData.state) {
-      case 'REQUESTED_CONNECTION_INVITATION_FROM_STORE':
+      case 'REQUESTED_CONNECTION_INVITATION_FROM_STORE_AND_BDR':
         setActiveTab('0')
         setActiveSubTab('0')
         setActiveQRCode(recievedData.data.store_invitation_url)
