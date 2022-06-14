@@ -90,10 +90,12 @@ const Demo = () => {
     switch (recievedData.state) {
       case 'REQUESTED_CONNECTION_INVITATION_FROM_STORE_AND_BDR':
         setActiveTab('-1')
-        setActiveSubTab('0')
         setActiveQRCode(recievedData.data.store_invitation_url)
         setBdrQrCodeValue(recievedData.data.bdr_invitation_url)
         break
+      case 'ID_CREDENTIAL_OFFER_ACCEPTED':
+        setActiveTab('0')
+        setActiveSubTab('0')
       case 'CONNECTION_ESTABLISHED_WITH_STORE':
       case 'EBON_CREDENTIAL_OFFER_SENT_BY_STORE':
         setActiveTab('0')
