@@ -943,12 +943,12 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     const bdrDidCommInvitation =
       'didcomm://aries_connection_invitation' + bdrInvitationUrlWithoutHost
       
-      
+      console.log(bdrDidCommInvitation)
       
     responseDemoStateJson = {
       state: DEMO_STATE.REQUESTED_CONNECTION_INVITATION_FROM_STORE,
       data: {
-        //connection ID of store connection will be used as demo user identifier
+        //connection ID of bdr connection will be used as demo user identifier
         demo_user_id: bdrConnectionInvitation.connection_id,
         bdr_connection_id: bdrConnectionInvitation.connection_id,
         bdr_invitation_url: bdrDidCommInvitation,
