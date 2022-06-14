@@ -193,12 +193,15 @@ const MainAccordion = props => {
                 <AppStoreLogo width='150' />
               </a>              
               <p>
-                In the end of the demo, will use
-                an base-ID issued by Bundesdruckerei
+                In the end of the demo, we will use
+                an base-ID issued by Bundesdruckerei.
                 This BaseID will be derived from
                 your real govenrmental ID card in the near future.
               </p>
-              
+              <p>
+                For now scan the QR-Code below with you wallet app to obtain a sample base-ID Credential
+                and continue the demo.
+              </p>
               <div class='d-flex justify-content-center'>
               <div className='qrCode-wrapper'>
                 <a href={props.bdrQrCodeValue}>
