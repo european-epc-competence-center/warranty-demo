@@ -96,6 +96,7 @@ const Demo = () => {
       case 'ID_CREDENTIAL_OFFER_ACCEPTED':
         setActiveTab('0')
         setActiveSubTab('0')
+        break
       case 'CONNECTION_ESTABLISHED_WITH_STORE':
       case 'EBON_CREDENTIAL_OFFER_SENT_BY_STORE':
         setActiveTab('0')
