@@ -25,7 +25,7 @@ if (!Number.isInteger(manufacturerWebhookPort)) {
   manufacturerWebhookPort = parseInt(manufacturerWebhookPort)
 }
 
-let bdrWebhookPort = process.env.BDR_MOCK_PORT || 7002
+let bdrWebhookPort = process.env.BDR_WEBHOOK_PORT || 7002
 if (!Number.isInteger(bdrWebhookPort)) {
   bdrWebhookPort = parseInt(bdrWebhookPort)
 }
@@ -906,7 +906,6 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
 
     
 
-
     demoUserStates[
       responseDemoStateJson.data.demo_user_id
     ] = responseDemoStateJson
@@ -929,14 +928,22 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     //get invitation URL
     const bdrInvitationURL = bdrConnectionInvitation.invitation_url
     console.log(bdrInvitationURL);
+
+    // build DIDComm URL 
+    const bdrInvitationUrlWithoutHost = bdrInvitationURL.substring(
+      bdrInvitationURL.indexOf('?'),
+      bdrInvitationURL.length
+    )
+    
+    const bdrDidCommInvitation =
+      'didcomm://aries_connection_invitation' + bdrInvitationUrlWithoutHost
   
 
     //Update state data
     responseDemoStateJson.data.bdr_connection_id = bdrConnectionInvitation.connection_id;
-    responseDemoStateJson.data.bdr_invitation_url = bdrInvitationURL;
+    responseDemoStateJson.data.bdr_invitation_url = bdrDidCommInvitation;
     
-
-    
+  
 
   } else {
     // we know the demo user --> just (re)send the (probably because of webhooks) prepared data without state change.
