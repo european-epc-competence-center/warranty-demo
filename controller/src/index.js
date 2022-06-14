@@ -891,7 +891,6 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     )
     const storeDidCommInvitation =
       'didcomm://aries_connection_invitation' + storeInvitationUrlWithoutHost
-    console.log(storeDidCommInvitation)  
       
       
     responseDemoStateJson = {
@@ -927,7 +926,6 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     
     //get invitation URL
     const bdrInvitationURL = bdrConnectionInvitation.invitation_url
-    console.log(bdrInvitationURL);
 
     // build DIDComm URL 
     const bdrInvitationUrlWithoutHost = bdrInvitationURL.substring(
@@ -949,7 +947,6 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     // we know the demo user --> just (re)send the (probably because of webhooks) prepared data without state change.
     // Frontend needs to know what to do with it because all data including state will be returned.
     responseDemoStateJson = getDemoUserState(demoUserID)
-    console.log(responseDemoStateJson)
     console.log(
       'Demo_user_id ' +
         demoUserID +
