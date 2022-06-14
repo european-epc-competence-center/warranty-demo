@@ -269,7 +269,7 @@ acapyBDR.on(
 acapyBDR.on(ACAPY_CLIENT_EVENTS.CREDENTIAL_ISSUED, async connectionID => {
   console.log(`AcapyBDR: Issued Credential for connection ${connectionID}.`)
   
-  const responseDemoStateJson = getDemoUserState(connectionData.connection_id)
+  const responseDemoStateJson = getDemoUserState(connection_id)
     if (!responseDemoStateJson) {
       console.log(
         'ERROR: Credential issued to someone who is not known as Demo User'
