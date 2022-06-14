@@ -224,14 +224,15 @@ acapyBDR.on(
     console.log(
       `Acapy BDR: connection established: ${connectionData.connection_id}`
     )
-
+    
+    /*
     const responseDemoStateJson = getDemoUserState(connectionData.connection_id)
     if (!responseDemoStateJson) {
       console.log(
         'ERROR: Connection established with store by someone who is not known as Demo User'
       )
       return
-    }
+    }*/
 
 
     setTimeout(async () => {
