@@ -864,7 +864,7 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     //No idea who is calling. -->Start Demo Flow from beginning
 
     //get connection invitation for store 
-    /*
+    
     let storeConnectionInvitation;
     
     try {
@@ -900,9 +900,12 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
         //connection ID of store connection will be used as demo user identifier
         demo_user_id: storeConnectionInvitation.connection_id,
         store_connection_id: storeConnectionInvitation.connection_id,
-        store_invitation_url: storeDidCommInvitation,
+        store_invitation_url: storeDidCommInvitation
       }
     }
+
+    
+
 
     demoUserStates[
       responseDemoStateJson.data.demo_user_id
@@ -910,58 +913,27 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     console.log(
       'Started Demo Flow for demo_user_id:' +
         storeConnectionInvitation.connection_id
-    ) */
+    ) 
     
-    //No idea who is calling. -->Start Demo Flow from beginning
-
-    //get connection invitation for BDR MOCK 
-
+    //get connection invitation for BDR MOCK    
     let bdrConnectionInvitation;
-    
+
     try {
-      bdrConnectionInvitation = await acapyBDR.getNewConnectionInvitation(demoUserID)
+      bdrConnectionInvitation = await acapyBDR.getNewConnectionInvitation(responseDemoStateJson.data.demo_user_id)
     } catch (error) {
       console.log(
-        `Error while trying to get connection invitations for new Demo Flow: ${error}`
+        `Error while trying to get connection invitations for BDR: ${error}`
       )
     }
-
-    if (!bdrConnectionInvitation) {
-      console.log('Did not retreive a bdr connection invitation.')
-      res.status(500).send('Did not retreive a bdr connection invitation.')
-      return
-    }
     
-
+    //get invitation URL
     const bdrInvitationURL = bdrConnectionInvitation.invitation_url
+    console.log(bdrInvitationURL);
+  
 
-    //build DIDComm URL for BDR
-    const bdrInvitationUrlWithoutHost = bdrInvitationURL.substring(
-      bdrInvitationURL.indexOf('?'),
-      bdrInvitationURL.length
-    )
-    const bdrDidCommInvitation =
-      'didcomm://aries_connection_invitation' + bdrInvitationUrlWithoutHost
-      
-      
-      
-    responseDemoStateJson = {
-      state: DEMO_STATE.REQUESTED_CONNECTION_INVITATION_FROM_STORE,
-      data: {
-        //connection ID of bdr connection will be used as demo user identifier
-        demo_user_id: bdrConnectionInvitation.connection_id,
-        bdr_connection_id: bdrConnectionInvitation.connection_id,
-        bdr_invitation_url: bdrDidCommInvitation,
-      }
-    }
-
-    demoUserStates[
-      responseDemoStateJson.data.demo_user_id
-    ] = responseDemoStateJson
-    console.log(
-      'Started Demo Flow for demo_user_id:' +
-        bdrConnectionInvitation.connection_id
-    )
+    //Update state data
+    responseDemoStateJson.data.bdr_connection_id = bdrConnectionInvitation.connection_id;
+    responseDemoStateJson.data.bdr_invitation_url = bdrInvitationURL;
     
 
     
