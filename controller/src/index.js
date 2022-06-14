@@ -247,7 +247,9 @@ acapyBDR.on(
           'firstName': 'Musterfrau',
           'familyName': 'Monika',
           'dateOfBirth': '08081970',
-          'documentType': 'ID'
+          'documentType': 'ID',
+          'academicTitle': 'Dr.',
+          'nationality': 'German'
         }
 
         const credentialOffer = await acapyBDR.buildCredentialOffer(
