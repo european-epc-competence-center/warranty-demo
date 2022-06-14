@@ -891,7 +891,7 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     )
     const storeDidCommInvitation =
       'didcomm://aries_connection_invitation' + storeInvitationUrlWithoutHost
-      
+    console.log(storeDidCommInvitation)  
       
       
     responseDemoStateJson = {
