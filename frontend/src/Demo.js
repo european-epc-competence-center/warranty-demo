@@ -91,8 +91,8 @@ const Demo = () => {
       case 'REQUESTED_CONNECTION_INVITATION_FROM_STORE':
         setActiveTab('0')
         setActiveSubTab('0')
-        setActiveQRCode(recievedData.data.store_invitation_url)
-        //setBdrQrCodeValue(recievedData.data.bdr_invitation_url)
+        //setActiveQRCode(recievedData.data.store_invitation_url)
+        setBdrQrCodeValue(recievedData.data.bdr_invitation_url)
         break
       case 'CONNECTION_ESTABLISHED_WITH_STORE':
       case 'EBON_CREDENTIAL_OFFER_SENT_BY_STORE':
@@ -195,14 +195,14 @@ const MainAccordion = props => {
                 This BaseID will be derived from
                 your real govenrmental ID card in the near future.
               </p>
-              {/*}
+              
               <div class='d-flex justify-content-center'>
               <div className='qrCode-wrapper'>
                 <a href={props.bdrQrCodeValue}>
                   <QRCode value={props.bdrQrCodeValue} />
                 </a>
               </div>
-            </div>*/} 
+            </div>
             </div>
             
           </Accordion.Body>
@@ -234,14 +234,14 @@ const MainAccordion = props => {
                     Please scan the QR code below. This will establish a
                     connection with the vendor.
                   </p>
-                 
+                  {/*}
                   <div class='d-flex justify-content-center'>
                     <div className='qrCode-wrapper'>
                       <a href={props.QRCodeValue}>
                         <QRCode value={props.QRCodeValue} />
                       </a>
                     </div>
-                  </div>
+                  </div>*/}
                 </Accordion.Body>
               </Accordion.Item>
               <Accordion.Item eventKey='1'>

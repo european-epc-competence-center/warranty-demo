@@ -864,7 +864,7 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     //No idea who is calling. -->Start Demo Flow from beginning
 
     //get connection invitation for store 
-
+    /*
     let storeConnectionInvitation;
     
     try {
@@ -910,8 +910,8 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     console.log(
       'Started Demo Flow for demo_user_id:' +
         storeConnectionInvitation.connection_id
-    ) 
-    /*
+    ) */
+    
     //No idea who is calling. -->Start Demo Flow from beginning
 
     //get connection invitation for BDR MOCK 
@@ -943,7 +943,7 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     const bdrDidCommInvitation =
       'didcomm://aries_connection_invitation' + bdrInvitationUrlWithoutHost
       
-      console.log(bdrDidCommInvitation)
+      
       
     responseDemoStateJson = {
       state: DEMO_STATE.REQUESTED_CONNECTION_INVITATION_FROM_STORE,
@@ -961,7 +961,7 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     console.log(
       'Started Demo Flow for demo_user_id:' +
         bdrConnectionInvitation.connection_id
-    )*/
+    )
     
 
     
