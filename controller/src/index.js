@@ -240,7 +240,7 @@ acapyBDR.on(
         const attributesToIssue = {
           'addressZipCode': '50674',
           'placeOfBirth': 'Germany',
-          'adressCity': 'Cologne',
+          'addressCity': 'Cologne',
           'addressCountry': 'Germany',
           'addressStreet': 'Aaachener Strasse',
           'dateOfExpiry': '30092025',
