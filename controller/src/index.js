@@ -25,7 +25,7 @@ if (!Number.isInteger(manufacturerWebhookPort)) {
   manufacturerWebhookPort = parseInt(manufacturerWebhookPort)
 }
 
-let bdrWebhookPort = process.env.BDR_MOCK_PORT || 7002
+let bdrWebhookPort = process.env.BDR_WEBHOOK_PORT || 7002
 if (!Number.isInteger(bdrWebhookPort)) {
   bdrWebhookPort = parseInt(bdrWebhookPort)
 }
@@ -93,8 +93,9 @@ let PRODUCT_CERTIFICATE_CRED_DEF_ID
 
 const DEMO_STATE = Object.freeze({
   UNKNOWN: 'UNKNOWN',
-  REQUESTED_CONNECTION_INVITATION_FROM_STORE:
-    'REQUESTED_CONNECTION_INVITATION_FROM_STORE',
+  REQUESTED_CONNECTION_INVITATION_FROM_STORE_AND_BDR:
+    'REQUESTED_CONNECTION_INVITATION_FROM_STORE_AND_BDR',
+  ID_CREDENTIAL_OFFER_ACCEPTED: 'ID_CREDENTIAL_OFFER_ACCEPTED',
   CONNECTION_ESTABLISHED_WITH_STORE: 'CONNECTION_ESTABLISHED_WITH_STORE',
   EBON_CREDENTIAL_OFFER_SENT_BY_STORE: 'EBON_CREDENTIAL_OFFER_SENT_BY_STORE',
   EBON_CREDENTIAL_OFFER_ACCEPTED: 'EBON_CREDENTIAL_OFFER_ACCEPTED',
@@ -216,6 +217,68 @@ acapyManufacturer.on(ACAPY_CLIENT_EVENTS.CONNECTED, async () => {
 // ---------------------------- AGENT PREPARATION END ------------------------------
 
 // ---------------------------- DEMO FLOW START ------------------------------
+
+// Issuance of Base ID from BDR Mock
+acapyBDR.on(
+  ACAPY_CLIENT_EVENTS.NEW_CONNECTION_ESTABLISHED,
+  async connectionData => {
+    console.log(
+      `Acapy BDR: connection established: ${connectionData.connection_id}`
+    )
+    
+    const responseDemoStateJson = getDemoUserState(connectionData.connection_id)
+    if (!responseDemoStateJson) {
+      console.log(
+        'ERROR: Connection established with bdr by someone who is not known as Demo User'
+      )
+      return
+    }
+
+
+    setTimeout(async () => {
+      try {
+        const attributesToIssue = {
+          'addressZipCode': '50674',
+          'placeOfBirth': 'Germany',
+          'addressCity': 'Cologne',
+          'addressCountry': 'Germany',
+          'addressStreet': 'Aaachener Strasse',
+          'dateOfExpiry': '30092025',
+          'firstName': 'Monika',
+          'familyName': 'Musterfrau',
+          'birthName': 'Musterperson',
+          'dateOfBirth': '08081970',
+          'documentType': 'ID',
+          'academicTitle': 'Dr.',
+          'nationality': 'German'
+        }
+
+        const credentialOffer = await acapyBDR.buildCredentialOffer(
+          connectionData.connection_id,
+          BDR_ONLINE_ID_CRED_DEF_ID,
+          attributesToIssue
+        )
+        await acapyBDR.issueCredential(credentialOffer)
+      } catch (error) {
+        console.log(`Error while sending eID credential offer: ${error}`)
+      }
+    }, 5000)
+  }
+)
+
+acapyBDR.on(ACAPY_CLIENT_EVENTS.CREDENTIAL_ISSUED, async connectionID => {
+  console.log(`AcapyBDR: Issued Credential for connection ${connectionID}.`)
+  
+  const responseDemoStateJson = getDemoUserState(connectionID)
+    if (!responseDemoStateJson) {
+      console.log(
+        'ERROR: Credential issued to someone who is not known as Demo User'
+      )
+      return
+    }
+
+  responseDemoStateJson.state = DEMO_STATE.ID_CREDENTIAL_OFFER_ACCEPTED; 
+})
 
 acapyStore.on(
   ACAPY_CLIENT_EVENTS.NEW_CONNECTION_ESTABLISHED,
@@ -570,6 +633,13 @@ function getDemoUserState (connectionID) {
     }
   }
 
+  // could be connection ID of BDR Mock
+  for (var key in demoUserStates) {
+    if (demoUserStates[key].data.bdr_connection_id === connectionID) {
+      return demoUserStates[key]
+    }
+  }
+
   //unknown demo user
   return
 }
@@ -815,40 +885,41 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     !demoUserStates[demoUserID].state ||
     demoUserStates[demoUserID].state === DEMO_STATE.UNKNOWN
   ) {
+    
     //No idea who is calling. -->Start Demo Flow from beginning
 
-    //get connection invitation for store
-
-    let storeConnectionInvitation
-
+    //get connection invitation for store 
+    
+    let storeConnectionInvitation;
+    
     try {
-      storeConnectionInvitation = await acapyStore.getNewConnectionInvitation(
-        demoUserID
-      )
+      storeConnectionInvitation = await acapyStore.getNewConnectionInvitation(demoUserID)
     } catch (error) {
       console.log(
-        `Error while trying to get connection invitation for new Demo Flow: ${error}`
+        `Error while trying to get connection invitations for new Demo Flow: ${error}`
       )
     }
 
     if (!storeConnectionInvitation) {
-      console.log('Did not retreive a connection invitation.')
-      res.status(500).send('Did not retreive a connection invitation.')
+      console.log('Did not retreive a store connection invitation.')
+      res.status(500).send('Did not retreive a store connection invitation.')
       return
     }
+    
 
     const storeInvitationURL = storeConnectionInvitation.invitation_url
 
-    //build DIDComm URL
+    //build DIDComm URL for store
     const storeInvitationUrlWithoutHost = storeInvitationURL.substring(
       storeInvitationURL.indexOf('?'),
       storeInvitationURL.length
     )
     const storeDidCommInvitation =
       'didcomm://aries_connection_invitation' + storeInvitationUrlWithoutHost
-
+      
+      
     responseDemoStateJson = {
-      state: DEMO_STATE.REQUESTED_CONNECTION_INVITATION_FROM_STORE,
+      state: DEMO_STATE.REQUESTED_CONNECTION_INVITATION_FROM_STORE_AND_BDR,
       data: {
         //connection ID of store connection will be used as demo user identifier
         demo_user_id: storeConnectionInvitation.connection_id,
@@ -857,13 +928,46 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
       }
     }
 
+    
+
     demoUserStates[
       responseDemoStateJson.data.demo_user_id
     ] = responseDemoStateJson
     console.log(
       'Started Demo Flow for demo_user_id:' +
         storeConnectionInvitation.connection_id
+    ) 
+    
+    //get connection invitation for BDR MOCK    
+    let bdrConnectionInvitation;
+
+    try {
+      bdrConnectionInvitation = await acapyBDR.getNewConnectionInvitation(responseDemoStateJson.data.demo_user_id)
+    } catch (error) {
+      console.log(
+        `Error while trying to get connection invitations for BDR: ${error}`
+      )
+    }
+    
+    //get invitation URL
+    const bdrInvitationURL = bdrConnectionInvitation.invitation_url
+
+    // build DIDComm URL 
+    const bdrInvitationUrlWithoutHost = bdrInvitationURL.substring(
+      bdrInvitationURL.indexOf('?'),
+      bdrInvitationURL.length
     )
+    
+    const bdrDidCommInvitation =
+      'didcomm://aries_connection_invitation' + bdrInvitationUrlWithoutHost
+  
+
+    //Update state data
+    responseDemoStateJson.data.bdr_connection_id = bdrConnectionInvitation.connection_id;
+    responseDemoStateJson.data.bdr_invitation_url = bdrDidCommInvitation;
+    
+  
+
   } else {
     // we know the demo user --> just (re)send the (probably because of webhooks) prepared data without state change.
     // Frontend needs to know what to do with it because all data including state will be returned.

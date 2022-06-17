@@ -88,28 +88,32 @@ const Demo = () => {
 
   const determineTab = recievedData => {
     switch (recievedData.state) {
-      case 'REQUESTED_CONNECTION_INVITATION_FROM_STORE':
+      case 'REQUESTED_CONNECTION_INVITATION_FROM_STORE_AND_BDR':
         setActiveTab('0')
-        setActiveSubTab('0')
         setActiveQRCode(recievedData.data.store_invitation_url)
+        setBdrQrCodeValue(recievedData.data.bdr_invitation_url)
+        break
+      case 'ID_CREDENTIAL_OFFER_ACCEPTED':
+        setActiveTab('1')
+        setActiveSubTab('0')
         break
       case 'CONNECTION_ESTABLISHED_WITH_STORE':
       case 'EBON_CREDENTIAL_OFFER_SENT_BY_STORE':
-        setActiveTab('0')
+        setActiveTab('1')
         setActiveSubTab('1')
         break
       case 'EBON_CREDENTIAL_OFFER_ACCEPTED':
-        setActiveTab('0')
+        setActiveTab('1')
         setActiveSubTab('2')
         break
       case 'REQUESTED_CONNECTION_INVITATION_FROM_MANUFACTURER':
-        setActiveTab('1')
+        setActiveTab('2')
         setActiveSubTab('-1')
         setActiveQRCode(recievedData.data.manufacturer_invitation_url)
         break
       case 'CONNECTION_ESTABLISHED_WITH_MANUFACTURER':
       case 'EBON_PRESENTATION_REQUEST_SENT_FROM_MANUFACTURER':
-        setActiveTab('1')
+        setActiveTab('2')
         setActiveSubTab('0')
         break
       case 'EBON_PRESENTATION_PRESENTATION_SENT_TO_MANUFACTURER':
@@ -123,7 +127,7 @@ const Demo = () => {
         break
       case 'WARRANTY_CASE_FLOW_INITIATED_BY_USER':
       case 'PRODUCT_CERTIFICATE_REQUEST_SENT_FROM_MANUFACTURER':
-        setActiveTab('2')
+        setActiveTab('3')
         setActiveSubTab('0')
         break
       case 'PRODUCT_CERTIFICATE_PRESENTATION_VERIFIED_BY_MANUFACTURER':
@@ -187,26 +191,29 @@ const MainAccordion = props => {
                 rel='noreferrer'
               >
                 <AppStoreLogo width='150' />
-              </a>
-{ /*
+              </a>              
               <p>
-                In the end of the demo, will use{' '}
-                <a
-                  href='https://ssi-issuer.tir.budru.de/ssi-test/test.html'
-                  target='_blank'
-                  rel='noreferrer'
-                >
-                  an base-ID issued by Bundesdruckerei
-                </a>{' '}
+                In the end of the demo, we will use
+                an base-ID issued by Bundesdruckerei.
                 This BaseID will be derived from
                 your real govenrmental ID card in the near future.
               </p>
-              <QRCode value={props.bdrQrCodeValue} />
-              */}
+              <p>
+                For now scan the QR-Code below with you wallet app to obtain a sample base-ID Credential
+                and continue the demo.
+              </p>
+              <div class='d-flex justify-content-center'>
+              <div className='qrCode-wrapper'>
+                <a href={props.bdrQrCodeValue}>
+                  <QRCode value={props.bdrQrCodeValue} />
+                </a>
+              </div>
             </div>
+            </div>
+            
           </Accordion.Body>
         </Accordion.Item>
-        <Accordion.Item eventKey='0'>
+        <Accordion.Item eventKey='1'>
           <Accordion.Header>eBon</Accordion.Header>
           <Accordion.Body>
             <Accordion activeKey={props.activeSubKey}>
@@ -233,6 +240,7 @@ const MainAccordion = props => {
                     Please scan the QR code below. This will establish a
                     connection with the vendor.
                   </p>
+                 
                   <div class='d-flex justify-content-center'>
                     <div className='qrCode-wrapper'>
                       <a href={props.QRCodeValue}>
@@ -308,7 +316,7 @@ const MainAccordion = props => {
             </Accordion>
           </Accordion.Body>
         </Accordion.Item>
-        <Accordion.Item eventKey='1'>
+        <Accordion.Item eventKey='2'>
           <Accordion.Header>Warranty Certificate</Accordion.Header>
           <Accordion.Body>
             <Accordion activeKey={props.activeSubKey}>
@@ -437,7 +445,7 @@ const MainAccordion = props => {
             </Accordion>
           </Accordion.Body>
         </Accordion.Item>
-        <Accordion.Item eventKey='2'>
+        <Accordion.Item eventKey='3'>
           <Accordion.Header>Claiming Warranty</Accordion.Header>
           <Accordion.Body>
             <Accordion activeKey={props.activeSubKey}>
