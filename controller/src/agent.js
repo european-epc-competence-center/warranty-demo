@@ -333,7 +333,9 @@ class AcapyClient extends EventEmitter {
         names: attributes,
         restrictions: restrictions
       }
-
+    
+    console.log("RequestedAttributes: " + attributes2Request);
+      
     let proofRequestTemplate = {
       connection_id: connectionID,
       proof_request: {
