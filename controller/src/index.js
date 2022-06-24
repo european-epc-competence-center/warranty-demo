@@ -470,6 +470,7 @@ acapyManufacturer.on(ACAPY_CLIENT_EVENTS.PRESENTATION_RECEIVED, async data => {
       )
       
       console.log(proofRequest);
+      console.log(proofRequest.RequestedAttributes);
       await acapyManufacturer.sendProofRequest(proofRequest)
       responseDemoStateJson.state =
         DEMO_STATE.ONLINE_ID_PRESENTATION_REQUEST_SENT_FROM_MANUFACTURER
