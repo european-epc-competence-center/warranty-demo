@@ -469,8 +469,6 @@ acapyManufacturer.on(ACAPY_CLIENT_EVENTS.PRESENTATION_RECEIVED, async data => {
           [{ cred_def_id: BDR_ONLINE_ID_CRED_DEF_ID }]
       )
       
-      console.log(proofRequest);
-      console.log(proofRequest.RequestedAttributes);
       await acapyManufacturer.sendProofRequest(proofRequest)
       responseDemoStateJson.state =
         DEMO_STATE.ONLINE_ID_PRESENTATION_REQUEST_SENT_FROM_MANUFACTURER
