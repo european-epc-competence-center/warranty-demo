@@ -569,7 +569,7 @@ const Header = props => {
           <a class='navbar-brand' href='https://www.gs1-germany.de/'>
             <img src={GS1Logo} height='120' alt='GS1 Logo' />
           </a>
-          <h1>SSI Product Warranty Demo</h1>
+          <h1>eBon and Product Warranty via SSI - a Demonstration</h1>
           <a class='navbar-brand' href='https://idunion.org/?lang=en'>
             <img src={IDUnionLogo} height='120' alt='ID Union Logo' />
           </a>
