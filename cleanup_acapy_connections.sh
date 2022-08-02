@@ -8,7 +8,8 @@ ALL_CONNECTIONS_FILE=all_connections
 source .env
 
 #SUB_WALLET_TOKEN=$SUB_WALLET_TOKEN_VENDOR
-SUB_WALLET_TOKEN=$SUB_WALLET_TOKEN_BDR
+echo "Deleting all connections for subwallet:"
+echo SUB_WALLET_TOKEN=${SUB_WALLET_TOKEN:=$SUB_WALLET_TOKEN_BDR}
 
 curl -X 'GET' \
 'http://localhost:8091/connections' \
