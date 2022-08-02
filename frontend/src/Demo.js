@@ -77,7 +77,7 @@ const Demo = () => {
             1. get XSRF token
             -> GET https://ssi-issuer.tir.budru.de/ssi-test/test.html
             -> Read from cooky
-
+ 
             2. get invitation for base ID a la
             curl 'https://ssi-issuer.tir.budru.de/ssi-test/api/debug/invite'  -v -H 'Content-Type: application/json;charset=UTF-8'  -H 'Cookie: XSRF-TOKEN=0e10e413-6e87-4b33-9111-fbea1979e2ce'   --data-raw '{"familyName":"Mustermann","firstName":"Sebastian","academicTitle":"","birthName":"","dateOfBirth":"19881107","addressStreet":"Kommandantenstr. 18","addressZipCode":"10969","addressCity":"Berlin","addressCountry":"Deutschland","placeOfBirth":"Berlin","dateOfExpiry":"20220430"}'
             */
@@ -191,7 +191,7 @@ const MainAccordion = props => {
                 rel='noreferrer'
               >
                 <AppStoreLogo width='150' />
-              </a>              
+              </a>
               <p>
                 In the end of the demo, we will use
                 an base-ID issued by Bundesdruckerei.
@@ -203,14 +203,14 @@ const MainAccordion = props => {
                 and continue the demo.
               </p>
               <div class='d-flex justify-content-center'>
-              <div className='qrCode-wrapper'>
-                <a href={props.bdrQrCodeValue}>
-                  <QRCode value={props.bdrQrCodeValue} />
-                </a>
+                <div className='qrCode-wrapper'>
+                  <a href={props.bdrQrCodeValue}>
+                    <QRCode value={props.bdrQrCodeValue} />
+                  </a>
+                </div>
               </div>
             </div>
-            </div>
-            
+
           </Accordion.Body>
         </Accordion.Item>
         <Accordion.Item eventKey='1'>
@@ -240,7 +240,7 @@ const MainAccordion = props => {
                     Please scan the QR code below. This will establish a
                     connection with the vendor.
                   </p>
-                 
+
                   <div class='d-flex justify-content-center'>
                     <div className='qrCode-wrapper'>
                       <a href={props.QRCodeValue}>
@@ -548,7 +548,7 @@ const DisplayCheckmark = props => {
 }
 
 const NextStateButton = props => {
-  function setDemoStateAtBackend () {
+  function setDemoStateAtBackend() {
     axios.post(BACKEND_URL + '/api/setDemoState', null, {
       params: { nextState: props.nextState, demo_user_id: props.demoUserID }
     })
@@ -563,22 +563,32 @@ const NextStateButton = props => {
 
 const Header = props => {
   return (
-    <div class='container'>
+    <Container>
       <nav class='navbar navbar-light bg-light'>
-        <div class='container'>
-          <a class='navbar-brand' href='https://www.gs1-germany.de/'>
-            <img src={GS1Logo} height='120' alt='GS1 Logo' />
-          </a>
-          <h1>eBon and Product Warranty via SSI - a Demonstration</h1>
-          <a class='navbar-brand' href='https://idunion.org/?lang=en'>
-            <img src={IDUnionLogo} height='120' alt='ID Union Logo' />
-          </a>
-          <a class='navbar-brand' href='https://id-ideal.de/en/'>
-            <img src={IDIdealLogo} height='120' alt='ID Ideal Logo' />
-          </a>
-        </div>
+        <Container>
+          <Row>
+            <Col>
+              <a class='navbar-brand' href='https://www.gs1-germany.de/'>
+                <img src={GS1Logo} height='120' alt='GS1 Logo' />
+              </a>
+            </Col>
+            <Col xs={6}>
+              <h1>eBon and Product Warranty via SSI - a Demonstration</h1>
+            </Col>
+            <Col>
+              <a class='navbar-brand' href='https://idunion.org/?lang=en'>
+                <img src={IDUnionLogo} height='120' alt='ID Union Logo' />
+              </a>
+            </Col>
+            <Col>
+              <a class='navbar-brand' href='https://id-ideal.de/en/'>
+                <img src={IDIdealLogo} height='120' alt='ID Ideal Logo' />
+              </a>
+            </Col>
+          </Row>
+        </Container>
       </nav>
-    </div>
+    </Container>
   )
 }
 
