@@ -28,10 +28,6 @@ CONTROLLER_PORT=80
 STORE_SUBWALLET_NAME=VendorWalletName
 MANUFACTURER_SUBWALLET_NAME=ManufacturerWalletName
 
-#Cred Def ID of Bundesdruckerei Test System
-#Issue a credential here: https://ssi-issuer.tir.budru.de/ssi-test/test.html
-BDR_ONLINE_ID_CRED_DEF_ID=ELMkCtYoz86qnJKeQqrL1M:3:CL:5574:Online-ID Demo
-
 ```
 
 
