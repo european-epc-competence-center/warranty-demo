@@ -71,17 +71,6 @@ const Demo = () => {
           setDemoState(recievedData)
           determineTab(recievedData)
         }
-
-        if (bdrQrCodeValue === '') {
-          /*
-            1. get XSRF token
-            -> GET https://ssi-issuer.tir.budru.de/ssi-test/test.html
-            -> Read from cooky
- 
-            2. get invitation for base ID a la
-            curl 'https://ssi-issuer.tir.budru.de/ssi-test/api/debug/invite'  -v -H 'Content-Type: application/json;charset=UTF-8'  -H 'Cookie: XSRF-TOKEN=0e10e413-6e87-4b33-9111-fbea1979e2ce'   --data-raw '{"familyName":"Mustermann","firstName":"Sebastian","academicTitle":"","birthName":"","dateOfBirth":"19881107","addressStreet":"Kommandantenstr. 18","addressZipCode":"10969","addressCity":"Berlin","addressCountry":"Deutschland","placeOfBirth":"Berlin","dateOfExpiry":"20220430"}'
-            */
-        }
       }, 1000)
     )
   }, [demoUserID])
@@ -163,65 +152,102 @@ const Demo = () => {
 
 const MainAccordion = props => {
   return (
-    <div class='container'>
+    <Container>
       <Accordion id='outerDemoAccordion' activeKey={props.activeMainKey}>
         <Accordion.Item eventKey='0'>
-          <Accordion.Header>Wallet setup and BaseID</Accordion.Header>
+          <Accordion.Header>Self-Sovereign Identity</Accordion.Header>
           <Accordion.Body>
+            <h2>Brief General Introduction to SSI</h2>
             <p>
-              For this Demo you need an SSI Wallet. The simplest way to get one
+              Todays typical wallets are in the process of being digitalized and this is not only about money and payment.
+              Tickets, Vouchers and identity documents can already now, or soon will be, found in a digital wallet.
+              An important feature that sets the self-sovereign identity (SSI) approach apart from centralized solutions is that the user maintains
+              full control over his data. Concretely, a Base ID credential will serves as a digital version of the German national ID card.
+              By the use of modern cryptography in SSI, the user maintains control over who can get which information. This is to be contrasted with an identity model where
+              a single-sign-on (SSO) at a big internet company lets the controller know and even choose who can get which information and
+              this central controller even gets to know every time I use such an SSO ID.
+            </p>
+
+            <h2>SSI in trade and commerce</h2>
+            <p>
+              A typical physical wallet likely contains more trade related "documents" then passports.
+              The digitalization of ID Cards, such as membership cards, naturally carries over to all sorts of loyalty cards.
+              In this demo, we would like to highlight and also technically demonstrate that SSI technology is also very suitable
+              for the digitalization of <b>bons and warranty certificates</b>. If done right, SSI will not only keep the current
+              level of paper/plastic based systems, but increase privacy/sovereignty, usability and efficiency for the end user as well as the merchant.
+            </p>
+
+            <h2>Setup</h2>
+            <p>
+              This is an interactive demonstration which will issue actual signed documents, so called <b>verifiable credentials</b>, to your personal SSI wallet.
+              While many people, from open source communities and small start ups all the way up to Google are developing wallet applications,
+              you might not yet have an SSI wallet compatible with the exact version of this rapidly developing technology on your mobile phone, yet.
+            </p>
+            <p>
+              The simplest way to get one
               is to use the{' '}
               <a href='https://lissi.id/' target='_blank' rel='noreferrer'>
                 Lissi
               </a>{' '}
-              mobile Wallet, which you need to install on your mobile phone. You
-              can safely delete the app after the demo.
+              mobile Wallet. Please install this app now. You can safely delete it after the demo.
             </p>
-            <div class='d-flex flex-column align-items-center mb-2'>
+            <div className='d-flex flex-column align-items-center mb-2'>
               <a
-                href='https://apps.apple.com/app/lissi-wallet/id1529848685'
+                href='https://play.google.com/store/apps/details?id=io.lissi.mobile.android'
                 target='_blank'
                 rel='noreferrer'
               >
                 <PlayStoreLogo width='150' />
               </a>
               <a
-                href='https://play.google.com/store/apps/details?id=io.lissi.mobile.android'
+                href='https://apps.apple.com/app/lissi-wallet/id1529848685'
                 target='_blank'
                 rel='noreferrer'
               >
                 <AppStoreLogo width='150' />
               </a>
-              <p>
-                In the end of the demo, we will use
-                an base-ID issued by Bundesdruckerei.
-                This BaseID will be derived from
-                your real govenrmental ID card in the near future.
-              </p>
-              <p>
-                For now scan the QR-Code below with you wallet app to obtain a sample base-ID Credential
-                and continue the demo.
-              </p>
-              <div class='d-flex justify-content-center'>
-                <div className='qrCode-wrapper'>
-                  <a href={props.bdrQrCodeValue}>
-                    <QRCode value={props.bdrQrCodeValue} />
-                  </a>
-                </div>
+            </div>
+
+            <h2>Getting Started</h2>
+            <p>
+              This Demo can be viewed on a big screen, interacting with your mobile wallet through QR code scans.
+              This also demonstrates how the demonstrated interactions between the involved parties can be facilitated.
+            </p>
+            <p>
+              If you are viewing this demo on the same mobile which also holds the wallet, that is perfectly fine.
+              In this case, just touch the QR codes to start the interaction with your wallet.
+              After completing the wallet process, switch back to your browser in order to continue with the story line.
+            </p>
+            <p>
+              To obtain your first verifiable credential and start this demo, please scan/tip the QR code below.
+              This will initiate a communication with a mock of a Bundesdruckerei Service.
+              This service is actual work in progress that will enable you to derive a base ID credential with a very high trust level
+              from your German national ID card (eID). However, for this demonstration, we will just provide you with a demo ID
+              which has a similar structure than the actual base ID. Please accept this credential to start the next step of the demo.
+            </p>
+            <p>
+              Importantly, any credential in your wallet can only accessed with your explicit consent.
+              We demonstrate data minimal flows in the following. Mind who asks for what and, in particular, which information can stay private.
+            </p>
+            <div className='d-flex justify-content-center'>
+              <div className='qrCode-wrapper'>
+                <a href={props.bdrQrCodeValue}>
+                  <QRCode value={props.bdrQrCodeValue} />
+                </a>
               </div>
             </div>
 
           </Accordion.Body>
         </Accordion.Item>
         <Accordion.Item eventKey='1'>
-          <Accordion.Header>eBon</Accordion.Header>
+          <Accordion.Header>Use Case: eBon</Accordion.Header>
           <Accordion.Body>
             <Accordion activeKey={props.activeSubKey}>
               <Accordion.Item eventKey='0'>
                 <Accordion.Header>
                   <Container fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
                     <Row>
-                      <Col>Starting eBon import: Connecting to Vendor</Col>
+                      <Col>Obtaining </Col>
                       <Col md={{ span: 1, offset: 5 }}>
                         <DisplayCheckmark
                           eventKey='0'
@@ -241,7 +267,7 @@ const MainAccordion = props => {
                     connection with the vendor.
                   </p>
 
-                  <div class='d-flex justify-content-center'>
+                  <div className='d-flex justify-content-center'>
                     <div className='qrCode-wrapper'>
                       <a href={props.QRCodeValue}>
                         <QRCode value={props.QRCodeValue} />
@@ -286,7 +312,7 @@ const MainAccordion = props => {
                   </Container>
                 </Accordion.Header>
                 <Accordion.Body>
-                  <div class='d-flex justify-content-center'>
+                  <div className='d-flex justify-content-center'>
                     <img src={eBon} width='120' alt='eBon Credential' />
                   </div>
                   <p>
@@ -302,7 +328,7 @@ const MainAccordion = props => {
                     warranty certificate. Click the button below to continue to
                     that QR Code.
                   </p>
-                  <div class='d-flex justify-content-center'>
+                  <div className='d-flex justify-content-center'>
                     <NextStateButton
                       nextState={
                         'REQUESTED_CONNECTION_INVITATION_FROM_MANUFACTURER'
@@ -340,7 +366,7 @@ const MainAccordion = props => {
                     the following QR code in order to establish a connection to
                     the manufacturer.
                   </p>
-                  <div class='d-flex justify-content-center'>
+                  <div className='d-flex justify-content-center'>
                     <div className='qrCode-wrapper'>
                       <a href={props.QRCodeValue}>
                         <QRCode value={props.QRCodeValue} />
@@ -415,7 +441,7 @@ const MainAccordion = props => {
                   </Container>
                 </Accordion.Header>
                 <Accordion.Body>
-                  <div class='d-flex justify-content-center'>
+                  <div className='d-flex justify-content-center'>
                     <img src={warranty} width='120' alt='eBon Credential' />
                   </div>
                   <p>
@@ -433,7 +459,7 @@ const MainAccordion = props => {
                     triggered directly form the warranty certificate, but this
                     feature is not yet avaiable in the lissi app.
                   </p>
-                  <div class='d-flex justify-content-center'>
+                  <div className='d-flex justify-content-center'>
                     <NextStateButton
                       nextState={props.initiateWarrantyStep}
                       label='Claim Warranty!'
@@ -508,39 +534,40 @@ const MainAccordion = props => {
                   <p>Your product is picked up, repaired, and returned!</p>
                   <p>
                     The main advantages of using Verifiable credentials in this
-                    demo are
-                    <ul>
-                      <li>
-                        The User has full controll over his data and
-                        certificates. No omniscient platform.
-                      </li>
-                      <li>
-                        Standardised data exchange and authenticity validation
-                        enables integration into many use cases. No direct
-                        integration between the involved parties needed.
-                      </li>
-                      <li>
-                        The user experience of a unified wallet for many
-                        different types of credentials and a wide range of use
-                        cases is expected to be much better than having single a
-                        lot of purpose apps for every individual use case.
-                      </li>
-                    </ul>
+                    demo are:
                   </p>
+                  <ul>
+                    <li>
+                      The User has full controll over his data and
+                      certificates. No omniscient platform.
+                    </li>
+                    <li>
+                      Standardised data exchange and authenticity validation
+                      enables integration into many use cases. No direct
+                      integration between the involved parties needed.
+                    </li>
+                    <li>
+                      The user experience of a unified wallet for many
+                      different types of credentials and a wide range of use
+                      cases is expected to be much better than having single a
+                      lot of purpose apps for every individual use case.
+                    </li>
+                  </ul>
+
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
-    </div>
+    </Container>
   )
 }
 
 const DisplayCheckmark = props => {
   //console.log(props)
   if (props.eventKey < props.activeSubKey) {
-    return <i class='bi bi-check-lg'></i>
+    return <i className='bi bi-check-lg'></i>
   } else if (props.eventKey === props.activeSubKey) {
     return <Spinner animation='border' variant='light' />
   }
@@ -564,11 +591,11 @@ const NextStateButton = props => {
 const Header = props => {
   return (
     <Container>
-      <nav class='navbar navbar-light bg-light'>
+      <nav className='navbar navbar-light bg-light'>
         <Container>
           <Row>
             <Col>
-              <a class='navbar-brand' href='https://www.gs1-germany.de/'>
+              <a href='https://www.gs1-germany.de/'>
                 <img src={GS1Logo} height='120' alt='GS1 Logo' />
               </a>
             </Col>
@@ -576,12 +603,12 @@ const Header = props => {
               <h1>eBon and Product Warranty via SSI - a Demonstration</h1>
             </Col>
             <Col>
-              <a class='navbar-brand' href='https://idunion.org/?lang=en'>
+              <a  href='https://idunion.org/?lang=en'>
                 <img src={IDUnionLogo} height='120' alt='ID Union Logo' />
               </a>
             </Col>
             <Col>
-              <a class='navbar-brand' href='https://id-ideal.de/en/'>
+              <a href='https://id-ideal.de/en/'>
                 <img src={IDIdealLogo} height='120' alt='ID Ideal Logo' />
               </a>
             </Col>
@@ -594,8 +621,8 @@ const Header = props => {
 
 const Footer = props => {
   return (
-    <footer class='container'>
-      <div class='d-flex justify-content-center align-items-center'>
+    <footer className='container'>
+      <div className='d-flex justify-content-center align-items-center'>
         <h6>Made by</h6>
         <a href='https://eecc.info/'>
           <img
