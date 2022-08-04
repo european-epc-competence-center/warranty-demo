@@ -19,7 +19,10 @@ const EECCLogo = require('./assets/eecc.png')
 const IDUnionLogo = require('./assets/IDunion_squard.png')
 const IDIdealLogo = require('./assets/ID-Ideal.png')
 const eBon = require('./assets/eBon_credential.png')
+const eBonOverview = require('./assets/ebon-overview.png')
 const warranty = require('./assets/certificate_credential.png')
+
+const crm_screensgot = require('./assets/crm-screenshot.jpg')
 
 const BACKEND_URL =
   process.env.REACT_APP_BACKEND_URL || 'https://warranty-demo.ssi.eecc.de'
@@ -243,11 +246,14 @@ const MainAccordion = props => {
           <Accordion.Header>Use Case: eBon</Accordion.Header>
           <Accordion.Body>
             <Accordion activeKey={props.activeSubKey}>
+            <div className='d-flex justify-content-center m-3'>
+                    <img src={eBonOverview} width='80%' alt='eBon use case' />
+                  </div>
               <Accordion.Item eventKey='0'>
                 <Accordion.Header>
                   <Container fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
                     <Row>
-                      <Col>Obtaining </Col>
+                      <Col>Connecting to the vendor </Col>
                       <Col md={{ span: 1, offset: 5 }}>
                         <DisplayCheckmark
                           eventKey='0'
@@ -259,11 +265,11 @@ const MainAccordion = props => {
                 </Accordion.Header>
                 <Accordion.Body>
                   <p>
-                    You have bought a tool. The vendor offers an eBon
-                    credential.
+                    You have bought a new tool. After the purchase, the vendor offers an eBon
+                    credential via showing this QR code.
                   </p>
                   <p>
-                    Please scan the QR code below. This will establish a
+                    Please scan/tip the QR code below. This will establish a
                     connection with the vendor.
                   </p>
 
@@ -292,9 +298,14 @@ const MainAccordion = props => {
                 </Accordion.Header>
                 <Accordion.Body>
                   <p>
-                    The Vendor is connected with you! He will send you an eBon
-                    Credential directly to your wallet.
+                    You have established a connection to the vendor.
+                    For the vendor, SSI connections offer very interesting possibilities in terms of CRM which we discuss in another demo.
+                    For now, the vendor will just send an eBon
+                    Credential directly to your wallet, please accept it there.
                   </p>
+                  <div className='d-flex justify-content-center m-3'>
+                    <img src={eBonOverview} width='80%' alt='eBon use case' />
+                  </div>
                 </Accordion.Body>
               </Accordion.Item>
               <Accordion.Item eventKey='2'>
