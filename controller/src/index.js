@@ -1,6 +1,6 @@
 'use strict'
 
-import { DEMO_STATE } from '../../Config'
+import { DEMO_STATE } from './Config'
 
 const express = require('express')
 const AcapyClient = require('./agent.js')

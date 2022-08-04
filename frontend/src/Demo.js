@@ -15,7 +15,7 @@ import Col from 'react-bootstrap/Col'
 import { ReactComponent as AppStoreLogo } from './assets/apple-appstore-badge.svg'
 import { ReactComponent as PlayStoreLogo } from './assets/google-play-badge.svg'
 
-import { BACKEND_URL } from '../../Config'
+import { BACKEND_URL } from './Config'
 
 const GS1Logo = require('./assets/logoGS1.png')
 const EECCLogo = require('./assets/eecc.png')
