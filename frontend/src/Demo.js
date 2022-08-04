@@ -15,7 +15,7 @@ import Col from 'react-bootstrap/Col'
 import { ReactComponent as AppStoreLogo } from './assets/apple-appstore-badge.svg'
 import { ReactComponent as PlayStoreLogo } from './assets/google-play-badge.svg'
 
-import {BACKEND_URL} from './Config'
+import { BACKEND_URL } from '../../Config'
 
 const GS1Logo = require('./assets/logoGS1.png')
 const EECCLogo = require('./assets/eecc.png')
@@ -74,6 +74,8 @@ const Demo = () => {
       }, 1000)
     )
   }, [demoUserID])
+
+
 
   const determineTab = recievedData => {
     switch (recievedData.state) {
@@ -243,9 +245,9 @@ const MainAccordion = props => {
           <Accordion.Header>Use Case: eBon</Accordion.Header>
           <Accordion.Body>
             <Accordion activeKey={props.activeSubKey}>
-            <div className='d-flex justify-content-center m-3'>
-                    <img src={eBonOverview} width='80%' alt='eBon use case' />
-                  </div>
+              <div className='d-flex justify-content-center m-3'>
+                <img src={eBonOverview} width='80%' alt='eBon use case' />
+              </div>
               <Accordion.Item eventKey='0'>
                 <Accordion.Header>
                   <Container fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
@@ -574,7 +576,11 @@ const DisplayCheckmark = props => {
   if (props.eventKey < props.activeSubKey) {
     return <i className='bi bi-check-lg'></i>
   } else if (props.eventKey === props.activeSubKey) {
-    return <Spinner animation='border' variant='light' />
+    return (<Spinner animation='border' variant='light' >
+      <span className="visually-hidden">In progress...</span>
+    </Spinner>
+    )
+
   }
   return null
 }
@@ -594,7 +600,7 @@ const Header = props => {
               <h1>eBon and Product Warranty via SSI - a Demonstration</h1>
             </Col>
             <Col>
-              <a  href='https://idunion.org/?lang=en'>
+              <a href='https://idunion.org/?lang=en'>
                 <img src={IDUnionLogo} height='120' alt='ID Union Logo' />
               </a>
             </Col>
