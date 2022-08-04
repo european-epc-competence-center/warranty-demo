@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import './Demo.css'
+import NextStateButton from './NextStateButton'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap'
 import axios from 'axios'
 import QRCode from 'react-qr-code'
 import Accordion from 'react-bootstrap/Accordion'
 import Spinner from 'react-bootstrap/Spinner'
-import Button from 'react-bootstrap/Button'
+
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
 import { ReactComponent as AppStoreLogo } from './assets/apple-appstore-badge.svg'
 import { ReactComponent as PlayStoreLogo } from './assets/google-play-badge.svg'
+
+import {BACKEND_URL} from './Config'
 
 const GS1Logo = require('./assets/logoGS1.png')
 const EECCLogo = require('./assets/eecc.png')
@@ -22,13 +25,7 @@ const eBon = require('./assets/eBon_credential.png')
 const eBonOverview = require('./assets/ebon-overview.png')
 const warranty = require('./assets/certificate_credential.png')
 
-const crm_screensgot = require('./assets/crm-screenshot.jpg')
 
-const BACKEND_URL =
-  process.env.REACT_APP_BACKEND_URL || 'https://warranty-demo.ssi.eecc.de'
-
-/**const AppStoreLogo = require("./assets/apple-appstore-badge.svg");**/
-/*const PlayStoreLogo = require("./assets/google-play-badge.svg");**/
 
 const Demo = () => {
   /*console.log(BACKEND_URL);*/
@@ -303,9 +300,6 @@ const MainAccordion = props => {
                     For now, the vendor will just send an eBon
                     Credential directly to your wallet, please accept it there.
                   </p>
-                  <div className='d-flex justify-content-center m-3'>
-                    <img src={eBonOverview} width='80%' alt='eBon use case' />
-                  </div>
                 </Accordion.Body>
               </Accordion.Item>
               <Accordion.Item eventKey='2'>
@@ -583,20 +577,6 @@ const DisplayCheckmark = props => {
     return <Spinner animation='border' variant='light' />
   }
   return null
-}
-
-const NextStateButton = props => {
-  function setDemoStateAtBackend() {
-    axios.post(BACKEND_URL + '/api/setDemoState', null, {
-      params: { nextState: props.nextState, demo_user_id: props.demoUserID }
-    })
-  }
-
-  return (
-    <Button variant='secondary' onClick={setDemoStateAtBackend}>
-      {props.label}
-    </Button>
-  )
 }
 
 const Header = props => {
