@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import './Demo.css'
+import NextStateButton from './NextStateButton'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap'
 import axios from 'axios'
 import QRCode from 'react-qr-code'
 import Accordion from 'react-bootstrap/Accordion'
 import Spinner from 'react-bootstrap/Spinner'
-import Button from 'react-bootstrap/Button'
+
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
 import { ReactComponent as AppStoreLogo } from './assets/apple-appstore-badge.svg'
 import { ReactComponent as PlayStoreLogo } from './assets/google-play-badge.svg'
+
+import { BACKEND_URL } from '../../Config'
 
 const GS1Logo = require('./assets/logoGS1.png')
 const EECCLogo = require('./assets/eecc.png')
@@ -22,13 +25,7 @@ const eBon = require('./assets/eBon_credential.png')
 const eBonOverview = require('./assets/ebon-overview.png')
 const warranty = require('./assets/certificate_credential.png')
 
-const crm_screensgot = require('./assets/crm-screenshot.jpg')
 
-const BACKEND_URL =
-  process.env.REACT_APP_BACKEND_URL || 'https://warranty-demo.ssi.eecc.de'
-
-/**const AppStoreLogo = require("./assets/apple-appstore-badge.svg");**/
-/*const PlayStoreLogo = require("./assets/google-play-badge.svg");**/
 
 const Demo = () => {
   /*console.log(BACKEND_URL);*/
@@ -77,6 +74,8 @@ const Demo = () => {
       }, 1000)
     )
   }, [demoUserID])
+
+
 
   const determineTab = recievedData => {
     switch (recievedData.state) {
@@ -246,9 +245,9 @@ const MainAccordion = props => {
           <Accordion.Header>Use Case: eBon</Accordion.Header>
           <Accordion.Body>
             <Accordion activeKey={props.activeSubKey}>
-            <div className='d-flex justify-content-center m-3'>
-                    <img src={eBonOverview} width='80%' alt='eBon use case' />
-                  </div>
+              <div className='d-flex justify-content-center m-3'>
+                <img src={eBonOverview} width='80%' alt='eBon use case' />
+              </div>
               <Accordion.Item eventKey='0'>
                 <Accordion.Header>
                   <Container fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
@@ -303,9 +302,6 @@ const MainAccordion = props => {
                     For now, the vendor will just send an eBon
                     Credential directly to your wallet, please accept it there.
                   </p>
-                  <div className='d-flex justify-content-center m-3'>
-                    <img src={eBonOverview} width='80%' alt='eBon use case' />
-                  </div>
                 </Accordion.Body>
               </Accordion.Item>
               <Accordion.Item eventKey='2'>
@@ -580,23 +576,13 @@ const DisplayCheckmark = props => {
   if (props.eventKey < props.activeSubKey) {
     return <i className='bi bi-check-lg'></i>
   } else if (props.eventKey === props.activeSubKey) {
-    return <Spinner animation='border' variant='light' />
+    return (<Spinner animation='border' variant='light' >
+      <span className="visually-hidden">In progress...</span>
+    </Spinner>
+    )
+
   }
   return null
-}
-
-const NextStateButton = props => {
-  function setDemoStateAtBackend() {
-    axios.post(BACKEND_URL + '/api/setDemoState', null, {
-      params: { nextState: props.nextState, demo_user_id: props.demoUserID }
-    })
-  }
-
-  return (
-    <Button variant='secondary' onClick={setDemoStateAtBackend}>
-      {props.label}
-    </Button>
-  )
 }
 
 const Header = props => {
@@ -614,7 +600,7 @@ const Header = props => {
               <h1>eBon and Product Warranty via SSI - a Demonstration</h1>
             </Col>
             <Col>
-              <a  href='https://idunion.org/?lang=en'>
+              <a href='https://idunion.org/?lang=en'>
                 <img src={IDUnionLogo} height='120' alt='ID Union Logo' />
               </a>
             </Col>
