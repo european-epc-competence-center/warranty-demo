@@ -1,6 +1,6 @@
-export const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://warranty-demo.ssi.eecc.de'
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://warranty-demo.ssi.eecc.de'
 
-export const DEMO_STATE = Object.freeze({
+const DEMO_STATE = Object.freeze({
     UNKNOWN: 'UNKNOWN',
     REQUESTED_CONNECTION_INVITATION_FROM_STORE_AND_BDR:
       'REQUESTED_CONNECTION_INVITATION_FROM_STORE_AND_BDR',
@@ -37,4 +37,8 @@ export const DEMO_STATE = Object.freeze({
       'ONLINE_ID_PRESENTATION_VERIFIED_BY_MANUFACTURER'
     //TODO: define remaining demo states
   })
+
+
+module.exports.BACKEND_URL=BACKEND_URL
+module.exports.DEMO_STATE=DEMO_STATE
 

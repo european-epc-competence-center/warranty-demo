@@ -17,6 +17,8 @@ import { ReactComponent as PlayStoreLogo } from './assets/google-play-badge.svg'
 
 import { BACKEND_URL } from './Config'
 
+console.log(BACKEND_URL)
+
 const GS1Logo = require('./assets/logoGS1.png')
 const EECCLogo = require('./assets/eecc.png')
 const IDUnionLogo = require('./assets/IDunion_squard.png')
