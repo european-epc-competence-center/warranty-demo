@@ -36,7 +36,6 @@ if (!Number.isInteger(controllerPort)) {
   controllerPort = parseInt(controllerPort)
 }
 
-//hard coded value is own cred def test on sovrin builder net based on schema used in idunion by Bundesdruckerei
 const BDR_ONLINE_ID_CRED_DEF_ID =
   process.env.BDR_ONLINE_ID_CRED_DEF_ID ||
   '8H87k9ddqnpBdPjzRJgvmw:3:CL:16271:Online ID'
