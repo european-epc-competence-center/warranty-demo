@@ -15,9 +15,9 @@ import Col from 'react-bootstrap/Col'
 import { ReactComponent as AppStoreLogo } from './assets/apple-appstore-badge.svg'
 import { ReactComponent as PlayStoreLogo } from './assets/google-play-badge.svg'
 
-import { BACKEND_URL } from './Config'
+import { STORY_LINE, BACKEND_URL } from './Config'
 
-console.log(BACKEND_URL)
+console.log("BACKEND_URL=" + BACKEND_URL)
 
 const GS1Logo = require('./assets/logoGS1.png')
 const EECCLogo = require('./assets/eecc.png')
@@ -34,7 +34,7 @@ const Demo = () => {
 
   const [intervalID, setIntervalID] = useState(null)
   const [demoState, setDemoState] = useState({
-    state: 'UNKNOWN',
+    state: STORY_LINE[0],
     data: {}
   })
 
@@ -45,8 +45,6 @@ const Demo = () => {
   const [activeSubTab, setActiveSubTab] = useState('0')
 
   const [activeQRCode, setActiveQRCode] = useState('')
-
-  const [nextState, setNextState] = useState('')
 
   const [bdrQrCodeValue, setBdrQrCodeValue] = useState('')
 
@@ -116,7 +114,6 @@ const Demo = () => {
         break
       case 'PRODUCT_CERTIFICATE_CREDENTIAL_OFFER_ACCEPTED':
         setActiveSubTab('2')
-        setNextState(recievedData.data.nextState)
         break
       case 'WARRANTY_CASE_FLOW_INITIATED_BY_USER':
       case 'PRODUCT_CERTIFICATE_REQUEST_SENT_FROM_MANUFACTURER':
@@ -146,7 +143,7 @@ const Demo = () => {
         activeSubKey={activeSubTab}
         QRCodeValue={activeQRCode}
         demoUserID={demoUserID}
-        initiateWarrantyStep={nextState}
+        demoState={demoState}
         bdrQrCodeValue={bdrQrCodeValue}
       />
       <Footer />
@@ -240,7 +237,14 @@ const MainAccordion = props => {
                 </a>
               </div>
             </div>
-
+            <div className='d-flex justify-content-center'>
+              <NextStateButton
+                currentState={props.demoState.state}
+                label='Skip'
+                force={true}
+                demoUserID={props.demoUserID}
+              />
+            </div>
           </Accordion.Body>
         </Accordion.Item>
         <Accordion.Item eventKey='1'>
@@ -281,6 +285,15 @@ const MainAccordion = props => {
                       </a>
                     </div>
                   </div>
+
+                  <div className='d-flex justify-content-center'>
+                    <NextStateButton
+                      currentState={props.demoState.state}
+                      label='Skip'
+                      force={true}
+                      demoUserID={props.demoUserID}
+                    />
+                  </div>
                 </Accordion.Body>
               </Accordion.Item>
               <Accordion.Item eventKey='1'>
@@ -304,6 +317,14 @@ const MainAccordion = props => {
                     For now, the vendor will just send an eBon
                     Credential directly to your wallet, please accept it there.
                   </p>
+                  <div className='d-flex justify-content-center'>
+                    <NextStateButton
+                      currentState={props.demoState.state}
+                      label='Skip'
+                      force={true}
+                      demoUserID={props.demoUserID}
+                    />
+                  </div>
                 </Accordion.Body>
               </Accordion.Item>
               <Accordion.Item eventKey='2'>
@@ -339,9 +360,7 @@ const MainAccordion = props => {
                   </p>
                   <div className='d-flex justify-content-center'>
                     <NextStateButton
-                      nextState={
-                        'REQUESTED_CONNECTION_INVITATION_FROM_MANUFACTURER'
-                      }
+                      currentState={props.demoState.state}
                       label='Request Warranty'
                       demoUserID={props.demoUserID}
                     />
@@ -382,6 +401,14 @@ const MainAccordion = props => {
                       </a>
                     </div>
                   </div>
+                  <div className='d-flex justify-content-center'>
+                    <NextStateButton
+                      currentState={props.demoState.state}
+                      label='Skip'
+                      force={true}
+                      demoUserID={props.demoUserID}
+                    />
+                  </div>
                 </Accordion.Body>
               </Accordion.Item>
               <Accordion.Item eventKey='0'>
@@ -412,6 +439,14 @@ const MainAccordion = props => {
                     decide whether you want to share this data with the
                     requesting party.
                   </p>
+                  <div className='d-flex justify-content-center'>
+                    <NextStateButton
+                      currentState={props.demoState.state}
+                      label='Skip'
+                      force={true}
+                      demoUserID={props.demoUserID}
+                    />
+                  </div>
                 </Accordion.Body>
               </Accordion.Item>
               <Accordion.Item eventKey='1'>
@@ -433,6 +468,14 @@ const MainAccordion = props => {
                     The manufacturer recieved your eBon data. After verifying
                     it, he will send you your product warranty certificate.
                   </p>
+                  <div className='d-flex justify-content-center'>
+                    <NextStateButton
+                      currentState={props.demoState.state}
+                      label='Skip'
+                      force={true}
+                      demoUserID={props.demoUserID}
+                    />
+                  </div>
                 </Accordion.Body>
               </Accordion.Item>
               <Accordion.Item eventKey='2'>
@@ -470,7 +513,7 @@ const MainAccordion = props => {
                   </p>
                   <div className='d-flex justify-content-center'>
                     <NextStateButton
-                      nextState={props.initiateWarrantyStep}
+                      currentState={props.demoState.state}
                       label='Claim Warranty!'
                       demoUserID={props.demoUserID}
                     />
