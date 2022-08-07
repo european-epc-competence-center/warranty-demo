@@ -209,7 +209,6 @@ const MainAccordion = props => {
               </a>
             </div>
 
-            <h2>Getting Started</h2>
             <p>
               This Demo can be viewed on a big screen, interacting with your mobile wallet through QR code scans.
               This also demonstrates how the demonstrated interactions between the involved parties can be facilitated.
@@ -219,16 +218,19 @@ const MainAccordion = props => {
               In this case, just touch the QR codes to start the interaction with your wallet.
               After completing the wallet process, switch back to your browser in order to continue with the story line.
             </p>
+            
+            <h2>Getting Started</h2>
             <p>
               To obtain your first verifiable credential and start this demo, please scan/tip the QR code below.
               This will initiate a communication with a mock of a Bundesdruckerei Service.
-              This service is actual work in progress that will enable you to derive a base ID credential with a very high trust level
-              from your German national ID card (eID). However, for this demonstration, we will just provide you with a demo ID
-              which has a similar structure than the actual base ID. Please accept this credential to start the next step of the demo.
+              This service is actual work in progress that will enable you to derive a base ID credential with a high trust level
+              from your German national ID card (eID). For this demonstration, we will provide you with a demo ID
+              which has a similar structure to the actual base ID. Please accept this credential to start the next step of the demo.
             </p>
             <p>
               Importantly, any credential in your wallet can only accessed with your explicit consent.
               We demonstrate data minimal flows in the following. Mind who asks for what and, in particular, which information can stay private.
+              Spoiler: you may skip this step without disturbing the demo much.
             </p>
             <div className='d-flex justify-content-center'>
               <div className='qrCode-wrapper'>
@@ -290,6 +292,7 @@ const MainAccordion = props => {
                     <NextStateButton
                       currentState={props.demoState.state}
                       label='Skip'
+                      steps={3}
                       force={true}
                       demoUserID={props.demoUserID}
                     />

@@ -65,14 +65,14 @@ const EBON_SCHEMA = {
     'item-id',
     'item-name',
     'net-price-amount',
-    'currency',
+    'net-price-currency',
     'vat-percent',
     'location-id',
     'vendor-id',
     'vendor-name'
   ],
   schema_name: 'eBon-bought-item',
-  schema_version: '1.0'
+  schema_version: '1.1'
 }
 
 const PRODUCT_CERTIFICATE_SCHEMA = {
@@ -267,26 +267,26 @@ acapyStore.on(
     setTimeout(async () => {
       try {
         const attributesToIssue = {
-          'eBon-id': generateDigitalLing(['253', getRandomGdti('eBon')]),
+          'eBon-id': generateDigitalLink(['253', getRandomGdti('eBon')]),
           date: new Date().toISOString(),
-          'item-id': generateDigitalLing([
+          'item-id': generateDigitalLink([
             '01',
             someEeccGtin,
             '21',
             getRandomNumber(5)
           ]),
-          'item-name': 'Product Name',
+          'item-name': 'Fancy Tool X100',
           'net-price-amount': '42.23',
-          currency: 'EUR',
+          'net-price-currency': 'EUR',
           'vat-percent': '19',
-          'location-id': generateDigitalLing([
-            '417',
+          'location-id': generateDigitalLink([
+            '414',
             someEeccGtin,
             '254',
             'store1'
           ]),
-          'vendor-id': generateDigitalLing(['414', someEeccGtin]),
-          'vendor-name': 'Vendor Name'
+          'vendor-id': generateDigitalLink(['417', someEeccGtin]),
+          'vendor-name': 'Fancy Tools Seller'
         }
 
         const credentialOffer = await acapyStore.buildCredentialOffer(
@@ -473,7 +473,7 @@ acapyManufacturer.on(ACAPY_CLIENT_EVENTS.PRESENTATION_RECEIVED, async data => {
           validThrough.setFullYear(validThrough.getFullYear() + 2)
 
           //TODO:  update schema and set dynamic attributes (like current time stamp etc.) (also from eBon Credential)
-          let warrantyId = generateDigitalLing([
+          let warrantyId = generateDigitalLink([
             '253',
             getRandomGdti('warranty')
           ])
@@ -496,7 +496,7 @@ acapyManufacturer.on(ACAPY_CLIENT_EVENTS.PRESENTATION_RECEIVED, async data => {
             'eBon-id': verificationResult['RequestedAttributes'].find(
               attrObject => attrObject['attr_name'] === 'eBon-id'
             )['attr_value'],
-            'claim-endpoint': warrantyId + '?linktype=linktype'
+            'claim-endpoint': warrantyId + '?linktype=claim_warranty'
           }
 
           const credentialOffer = await acapyManufacturer.buildCredentialOffer(
@@ -549,7 +549,7 @@ acapyManufacturer.on(
 // --------------------------- HELPER FUNCTIONS ----------------------------
 
 // generateDigitalLing([ai1,id1, ai2,id2,...])
-function generateDigitalLing (parameters) {
+function generateDigitalLink (parameters) {
   let dl = digitalLingDomainAndPath
   let i = 0
   while (i + 1 < parameters.length) {
