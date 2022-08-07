@@ -26,6 +26,7 @@ const IDIdealLogo = require('./assets/ID-Ideal.png')
 const eBon = require('./assets/eBon_credential.png')
 const eBonOverview = require('./assets/ebon-overview.png')
 const warranty = require('./assets/certificate_credential.png')
+const warranty_stoy = require('./assets/warranty_story.png')
 
 
 
@@ -218,7 +219,7 @@ const MainAccordion = props => {
               In this case, just touch the QR codes to start the interaction with your wallet.
               After completing the wallet process, switch back to your browser in order to continue with the story line.
             </p>
-            
+
             <h2>Getting Started</h2>
             <p>
               To obtain your first verifiable credential and start this demo, please scan/tip the QR code below.
@@ -256,6 +257,9 @@ const MainAccordion = props => {
               <div className='d-flex justify-content-center m-3'>
                 <img src={eBonOverview} width='80%' alt='eBon use case' />
               </div>
+              <p>
+                The actual user story of this demo starts in a DIY store where you have just bought a new tool.
+              </p>
               <Accordion.Item eventKey='0'>
                 <Accordion.Header>
                   <Container fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
@@ -272,8 +276,10 @@ const MainAccordion = props => {
                 </Accordion.Header>
                 <Accordion.Body>
                   <p>
-                    You have bought a new tool. After the purchase, the vendor offers an eBon
-                    credential via showing this QR code.
+                    After the purchase, the vendor offers an eBon
+                    credential via showing this QR code at the point of sales.
+                    Since this is the first time that you are buying in this shop, you do not yet have a connection to the vendor.
+                    This is the SSI jargon to say that the vendor is not in your SSI contact list. Lets remedy this.
                   </p>
                   <p>
                     Please scan/tip the QR code below. This will establish a
@@ -318,7 +324,17 @@ const MainAccordion = props => {
                     You have established a connection to the vendor.
                     For the vendor, SSI connections offer very interesting possibilities in terms of CRM which we discuss in another demo.
                     For now, the vendor will just send an eBon
-                    Credential directly to your wallet, please accept it there.
+                    Credential directly to your wallet over the established connection.
+                  </p>
+                  <p>
+                    Note that no information about yourself was revealed. The vendor can associate the information about your purchase with your pseudonymous
+                    connection (id), but you may choose to create a new pseudonymous connection for each purchase.
+                    The vendor may offer benefits if you re-use an existing connection and hence start to accumulate information
+                    about you as a frequent customer, but you do not have to take this offer in order to benefit from the eBon credentials.
+                    The data sovereignty stays entirely with the user.
+                  </p>
+                  <p>
+                    Please accept the credential offer in your wallet.
                   </p>
                   <div className='d-flex justify-content-center'>
                     <NextStateButton
@@ -376,6 +392,15 @@ const MainAccordion = props => {
         <Accordion.Item eventKey='2'>
           <Accordion.Header>Warranty Certificate</Accordion.Header>
           <Accordion.Body>
+            <div className='d-flex justify-content-center m-3'>
+              <img src={warranty_stoy} width='80%' alt='warranty use case' />
+            </div>
+            <p>
+              The main point of this demo is to give an idea how a complete product warranty use case
+              can be implemented in a way that a t the same time respects the users privacy by requiring as
+              few data as possible and still preventing warranty fraud more effectively than todays processes.
+            </p>
+
             <Accordion activeKey={props.activeSubKey}>
               <Accordion.Item eventKey='-1'>
                 <Accordion.Header>
@@ -393,8 +418,8 @@ const MainAccordion = props => {
                 </Accordion.Header>
                 <Accordion.Body>
                   <p>
-                    To start the process of obtaining you your warranty, scan
-                    the following QR code in order to establish a connection to
+                    To start the process of obtaining you your warranty, scan/tip
+                    the following QR code which you have found inside your products packaging in order to establish a connection to
                     the manufacturer.
                   </p>
                   <div className='d-flex justify-content-center'>
@@ -442,6 +467,11 @@ const MainAccordion = props => {
                     decide whether you want to share this data with the
                     requesting party.
                   </p>
+                  <p>
+                    Notice that no personal data is queried. Instead, you present a proof 
+                    that you bought exactly this item and information about when and where it was bought.
+                    Even more, you only partially disclose the ebon, keeping the price of the purchase secret.
+                  </p>
                   <div className='d-flex justify-content-center'>
                     <NextStateButton
                       currentState={props.demoState.state}
@@ -468,8 +498,16 @@ const MainAccordion = props => {
                 </Accordion.Header>
                 <Accordion.Body>
                   <p>
-                    The manufacturer recieved your eBon data. After verifying
-                    it, he will send you your product warranty certificate.
+                    After manufacturer recieved your eBon data, he can run some further checks on your presentation to make super
+                    that no one requested a warranty for this exact item, the location and time of the purchase are plausible, etc.
+                    Once your warranty request is found to be valid, the manufacturer sends your product warranty certificate directly to your wallet.
+                  </p>
+                  <p>
+                    In this demo, we simplify the process by issuing the warranty directly to the product owner, hence binding the warranty to a person.
+                    In reality, the warranty should be issued to the product itself, which would enable it to easily travel with the product if it is e.g. sold again.
+                  </p>
+                  <p>
+                    Please accept the warranty certificate in your wallet.
                   </p>
                   <div className='d-flex justify-content-center'>
                     <NextStateButton
@@ -502,8 +540,8 @@ const MainAccordion = props => {
                   <p>
                     You recieved the warranty credential from the manufacturer!
                     Now you have a digital representation of the product
-                    warranty stored in your wallet. Again, this information is
-                    not stored in any central databank but locally on your
+                    warranty stored in your wallet. This information is
+                    not stored in any central data bank but locally on your
                     mobile phone so that you can decide whom you want to show
                     it.
                   </p>
@@ -511,8 +549,9 @@ const MainAccordion = props => {
                     Now, imagine that your tool has an unexpected malfunction.
                     Click the button below to open a warranty case with the
                     manufacturer. In a real world scenario, this should be
-                    triggered directly form the warranty certificate, but this
-                    feature is not yet avaiable in the lissi app.
+                    triggered directly form the warranty certificate.
+                    Features to interact directly with your certificates/connections are currently under development
+                    in many wallets.
                   </p>
                   <div className='d-flex justify-content-center'>
                     <NextStateButton
@@ -546,7 +585,7 @@ const MainAccordion = props => {
                 </Accordion.Header>
                 <Accordion.Body>
                   <p>
-                    In order to open a warranty case,the manufacturer will first
+                    In order to open a warranty case, the manufacturer or a contracted service provider, will first
                     ask you to present you warranty certificate via your Wallet.
                   </p>
                   <p>
@@ -554,9 +593,11 @@ const MainAccordion = props => {
                     data and decide whether to answer the presentation request.
                   </p>
                   <p>
-                    Additionally, the manufacturer asks you to provide a
-                    description of the mal function, which you can also provide
-                    directly through your wallet.
+                    Additionally, you can 
+                    description of the mal function directly with the warranty presentation.
+                    Using this feature, you can get information directly from a customer
+                    without the need of creating an account and logging him into a website.
+                    The proof guarantees that the information entered stems from the warranty certificate holder.
                   </p>
                 </Accordion.Body>
               </Accordion.Item>
