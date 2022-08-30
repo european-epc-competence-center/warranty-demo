@@ -17,6 +17,8 @@ services:
 
     command: start --seed $AGENT_SEED --auto-provision --wallet-type indy --wallet-key $AGENT_WALLET_KEY --wallet-name $AGENT_WALLET_NAME --auto-store-credential --inbound-transport http 0.0.0.0 8030 --admin 0.0.0.0 8091 --admin-api-key $AGENT_ADMIN_KEY --multitenant --multitenant-admin --jwt-secret $JWT_SECRET    
     restart: always
+    networks:
+      -  warranty-demo
 
   backend-idunion:
     container_name: backend-idunion
@@ -27,6 +29,8 @@ services:
     restart: always
     ports:
       - "8088:80"
+    networks:
+      -  warranty-demo
 
   frontend-idunion:
     container_name: frontend-idunion
@@ -37,8 +41,12 @@ services:
 
     depends_on:
       - backend-idunion
+    networks:
+      -  warranty-demo
 
 volumes:
   ssi_demo_aca_py_idunion:
     name: ssi_demo_aca_py_idunion
 
+networks:
+  warranty-demo:
