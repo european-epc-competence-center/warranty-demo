@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './Demo.css'
 import NextStateButton from './NextStateButton'
+import Header from './Header'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap'
 import axios from 'axios'
@@ -19,15 +20,12 @@ import { STORY_LINE, BACKEND_URL } from './Config'
 
 console.log("BACKEND_URL=" + BACKEND_URL)
 
-const GS1Logo = require('./assets/logoGS1.png')
 const EECCLogo = require('./assets/eecc.png')
-const IDUnionLogo = require('./assets/IDunion_squard.png')
-const IDIdealLogo = require('./assets/ID-Ideal.png')
 const eBon = require('./assets/eBon_credential.png')
 const eBonOverview = require('./assets/ebon-overview.png')
 const warranty = require('./assets/certificate_credential.png')
 const warranty_stoy = require('./assets/warranty_story.png')
-
+const bmwk_logo = require('./assets/BMWK.jpg')
 
 
 const Demo = () => {
@@ -161,8 +159,8 @@ const MainAccordion = props => {
           <Accordion.Body>
             <h2>Brief General Introduction to SSI</h2>
             <p>
-              Todays typical wallets are in the process of being digitalized and this is not only about money and payment.
-              Tickets, Vouchers and identity documents can already now, or soon will be, found in a digital wallet.
+              Today's typical wallets are in the process of being digitalized and this is not only about money and payment.
+              Tickets, Vouchers, and identity documents can already now, or soon will be, found in a digital wallet.
               An important feature that sets the self-sovereign identity (SSI) approach apart from centralized solutions is that the user maintains
               full control over his data. Concretely, a Base ID credential will serves as a digital version of the German national ID card.
               By the use of modern cryptography in SSI, the user maintains control over who can get which information. This is to be contrasted with an identity model where
@@ -674,37 +672,6 @@ const DisplayCheckmark = props => {
   return null
 }
 
-const Header = props => {
-  return (
-    <Container>
-      <nav className='navbar navbar-light bg-light'>
-        <Container>
-          <Row>
-            <Col>
-              <a href='https://www.gs1-germany.de/'>
-                <img src={GS1Logo} height='120' alt='GS1 Logo' />
-              </a>
-            </Col>
-            <Col xs={6}>
-              <h1>eBon and Product Warranty via SSI - a Demonstration</h1>
-            </Col>
-            <Col>
-              <a href='https://idunion.org/?lang=en'>
-                <img src={IDUnionLogo} height='120' alt='ID Union Logo' />
-              </a>
-            </Col>
-            <Col>
-              <a href='https://id-ideal.de/en/'>
-                <img src={IDIdealLogo} height='120' alt='ID Ideal Logo' />
-              </a>
-            </Col>
-          </Row>
-        </Container>
-      </nav>
-    </Container>
-  )
-}
-
 const Footer = props => {
   return (
     <footer className='container'>
@@ -713,12 +680,18 @@ const Footer = props => {
         <a href='https://eecc.info/'>
           <img
             src={EECCLogo}
-            width='120'
+            height='150'
             alt='EECC Logo'
             style={{ margin: '10px' }}
           />
         </a>
         <h6>European EPC Competence Center</h6>
+        <img
+            src={bmwk_logo}
+            height='150'
+            alt='EECC Logo'
+            style={{ margin: '10px' }}
+          />
       </div>
     </footer>
   )
