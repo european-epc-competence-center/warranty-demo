@@ -60,15 +60,7 @@ const STORY_LINE = [
     DEMO_STATE.ONLINE_ID_PRESENTATION_VERIFIED_BY_MANUFACTURER
 ]
 
-if (module == undefined) {
-    var module = {}
-}
-if (module.exports == undefined) {
-    module.exports = []
-}
-
 module.exports.BACKEND_URL = BACKEND_URL
 module.exports.DEMO_STATE = DEMO_STATE
 module.exports.STORY_LINE = STORY_LINE
 
-export { BACKEND_URL, DEMO_STATE, STORY_LINE }

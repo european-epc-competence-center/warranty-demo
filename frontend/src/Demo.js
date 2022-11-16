@@ -16,8 +16,6 @@ import Col from 'react-bootstrap/Col'
 import { ReactComponent as AppStoreLogo } from './assets/apple-appstore-badge.svg'
 import { ReactComponent as PlayStoreLogo } from './assets/google-play-badge.svg'
 
-import { STORY_LINE, BACKEND_URL } from './Config'
-
 console.log("BACKEND_URL=" + BACKEND_URL)
 
 const EECCLogo = require('./assets/eecc.png')
@@ -27,6 +25,10 @@ const warranty = require('./assets/certificate_credential.png')
 const warranty_stoy = require('./assets/warranty_story.png')
 const bmwk_logo = require('./assets/BMWK.jpg')
 
+
+const config = require('./Config.js')
+const STORY_LINE = config.DEMO_STATE
+const BACKEND_URL = config.BACKEND_URL
 
 const Demo = () => {
   /*console.log(BACKEND_URL);*/
