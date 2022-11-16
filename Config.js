@@ -64,3 +64,4 @@ module.exports.BACKEND_URL=BACKEND_URL
 module.exports.DEMO_STATE=DEMO_STATE
 module.exports.STORY_LINE=STORY_LINE
 
+export {BACKEND_URL, DEMO_STATE, STORY_LINE}
