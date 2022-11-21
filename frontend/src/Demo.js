@@ -429,7 +429,7 @@ const MainAccordion = props => {
                   </div>
                   <div className='d-flex justify-content-center'>
                     <NextStateButton
-                      next_state='EBON_PRESENTATION_REQUEST_SENT_FROM_MANUFACTURER'
+                      nextState='EBON_PRESENTATION_REQUEST_SENT_FROM_MANUFACTURER'
                       label='Skip'
                       force={true}
                       demoUserID={props.demoUserID}
@@ -472,7 +472,7 @@ const MainAccordion = props => {
                   </p>
                   <div className='d-flex justify-content-center'>
                     <NextStateButton
-                      next_state='PRODUCT_CERTIFICATE_CREDENTIAL_OFFER_SENT_BY_MANUFACTURER'
+                      nextState='PRODUCT_CERTIFICATE_CREDENTIAL_OFFER_SENT_BY_MANUFACTURER'
                       label='Skip'
                       force={true}
                       demoUserID={props.demoUserID}
