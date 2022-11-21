@@ -296,7 +296,7 @@ const MainAccordion = props => {
                     <NextStateButton
                       currentState={props.demoState.state}
                       label='Skip'
-                      steps={3}
+                      steps={2}
                       force={true}
                       demoUserID={props.demoUserID}
                     />
