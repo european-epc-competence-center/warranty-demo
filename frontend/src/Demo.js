@@ -31,7 +31,7 @@ const STORY_LINE = config.DEMO_STATE
 const BACKEND_URL = config.BACKEND_URL
 
 const Demo = () => {
-  /*console.log(BACKEND_URL);*/
+  console.log("Backend URL: " + BACKEND_URL);
 
   const [intervalID, setIntervalID] = useState(null)
   const [demoState, setDemoState] = useState({
