@@ -6,7 +6,7 @@ const NextStateButton = props => {
     function setDemoStateAtBackend() {
         var next_state = ""
         if (typeof props.nextState !== 'undefined') {
-            var next_state = props.nextState
+            next_state = props.nextState
         } else if (typeof props.currentState !== 'undefined') {
             const steps = props.steps || 1
             let current_state_index = STORY_LINE.indexOf(props.currentState)
