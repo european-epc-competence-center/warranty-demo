@@ -163,34 +163,34 @@ const MainAccordion = props => {
               Today's typical wallets are in the process of being digitalized and this is not only about money and payment.
               Tickets, Vouchers, and identity documents can already now, or soon will be, found in a digital wallet.
               An important feature that sets the self-sovereign identity (SSI) approach apart from centralized solutions is that the user maintains
-              full control over his data. Concretely, a Base ID credential will serves as a digital version of the German national ID card.
+              full control over his data. Concretely, a Base ID credential will serve as a digital version of the German national ID card.
               By the use of modern cryptography in SSI, the user maintains control over who can get which information. This is to be contrasted with an identity model where
               a single-sign-on (SSO) at a big internet company lets the controller know and even choose who can get which information and
-              this central controller even gets to know every time I use such an SSO ID.
+              this central controller even gets to know every time one uses such an SSO ID.
             </p>
 
             <h2>SSI in trade and commerce</h2>
             <p>
-              A typical physical wallet likely contains more trade related "documents" then passports.
+              A typical physical wallet likely contains more trade-related "documents" than passports.
               The digitalization of ID Cards, such as membership cards, naturally carries over to all sorts of loyalty cards.
               In this demo, we would like to highlight and also technically demonstrate that SSI technology is also very suitable
               for the digitalization of <b>bons and warranty certificates</b>. If done right, SSI will not only keep the current
-              level of paper/plastic based systems, but increase privacy/sovereignty, usability and efficiency for the end user as well as the merchant.
+              level of paper/plastic-based based systems, but increase privacy/sovereignty, usability and efficiency for the end user as well as the merchant.
             </p>
 
             <h2>Setup</h2>
             <p>
-              This is an interactive demonstration which will issue actual signed documents, so called <b>verifiable credentials</b>, to your personal SSI wallet.
-              While many people, from open source communities and small start ups all the way up to Google are developing wallet applications,
-              you might not yet have an SSI wallet compatible with the exact version of this rapidly developing technology on your mobile phone, yet.
+              This is an interactive demonstration that will issue actual signed documents, so-called <b>verifiable credentials</b>, to your personal SSI wallet.
+              While many people, from open source communities and small start-ups all the way up to Google are developing wallet applications,
+              you might not yet have an SSI wallet compatible with the exact version of this rapidly developing technology on your mobile phone yet.
             </p>
             <p>
               The simplest way to get one
               is to use the{' '}
               <a href='https://lissi.id/' target='_blank' rel='noreferrer'>
-                Lissi
+                Lissi Mobile Wallet
               </a>{' '}
-              mobile Wallet. Please install this app now. You can safely delete it after the demo.
+              . Please install this app now. You can safely delete it after the demo.
             </p>
             <div className='d-flex flex-column align-items-center mb-2'>
               <a
@@ -216,7 +216,7 @@ const MainAccordion = props => {
             <p>
               If you are viewing this demo on the same mobile which also holds the wallet, that is perfectly fine.
               In this case, just touch the QR codes to start the interaction with your wallet.
-              After completing the wallet process, switch back to your browser in order to continue with the story line.
+              After completing the wallet process, switch back to your browser in order to continue with the storyline.
             </p>
 
             <h2>Getting Started</h2>
@@ -225,10 +225,10 @@ const MainAccordion = props => {
               This will initiate a communication with a mock of a Bundesdruckerei Service.
               This service is actual work in progress that will enable you to derive a base ID credential with a high trust level
               from your German national ID card (eID). For this demonstration, we will provide you with a demo ID
-              which has a similar structure to the actual base ID. Please accept this credential to start the next step of the demo.
+              that has a similar structure to the actual base ID. Please accept this credential to start the next step of the demo.
             </p>
             <p>
-              Importantly, any credential in your wallet can only accessed with your explicit consent.
+              Importantly, any credential in your wallet can only be accessed with your explicit consent.
               We demonstrate data minimal flows in the following. Mind who asks for what and, in particular, which information can stay private.
               Spoiler: you may skip this step without disturbing the demo much.
             </p>
@@ -257,7 +257,7 @@ const MainAccordion = props => {
                 <img src={eBonOverview} width='80%' alt='eBon use case' />
               </div>
               <p>
-                The actual user story of this demo starts in a DIY store where you have just bought a new tool.
+                The actual user story of this demo starts in a DIY store, where you have just bought a new tool.
               </p>
               <Accordion.Item eventKey='0'>
                 <Accordion.Header>
@@ -276,9 +276,9 @@ const MainAccordion = props => {
                 <Accordion.Body>
                   <p>
                     After the purchase, the vendor offers an eBon
-                    credential via showing this QR code at the point of sales.
+                    credential by showing this QR code at the point of sale.
                     Since this is the first time that you are buying in this shop, you do not yet have a connection to the vendor.
-                    This is the SSI jargon to say that the vendor is not in your SSI contact list. Lets remedy this.
+                    This is the SSI jargon to say that the vendor is not in your SSI contact list. Let's remedy this.
                   </p>
                   <p>
                     Please scan/tip the QR code below. This will establish a
@@ -349,7 +349,7 @@ const MainAccordion = props => {
                 <Accordion.Header>
                   <Container fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
                     <Row>
-                      <Col>eBon Credential recieved</Col>
+                      <Col>eBon Credential received</Col>
                       <Col md={{ span: 1, offset: 5 }}>
                         <DisplayCheckmark
                           eventKey='2'
@@ -366,7 +366,7 @@ const MainAccordion = props => {
                   <p>
                     You just obtained your first eBon Credential! It contains
                     your eBon for your purchased tool. This credential is stored
-                    in your wallet, so you have full controll over whom you want
+                    in your wallet, so you have full control over whom you want
                     to show it. Just like a piece of paper in your physical
                     wallet.
                   </p>
@@ -395,9 +395,9 @@ const MainAccordion = props => {
               <img src={warranty_stoy} width='80%' alt='warranty use case' />
             </div>
             <p>
-              The main point of this demo is to give an idea how a complete product warranty use case
-              can be implemented in a way that a t the same time respects the users privacy by requiring as
-              few data as possible and still preventing warranty fraud more effectively than todays processes.
+              The main point of this demo is to give an idea of how a complete product warranty use case
+              can be implemented in a way that at the same time respects the user's privacy by requiring as
+              little data as possible and still preventing warranty fraud more effectively than today's processes.
             </p>
 
             <Accordion activeKey={props.activeSubKey}>
@@ -417,8 +417,8 @@ const MainAccordion = props => {
                 </Accordion.Header>
                 <Accordion.Body>
                   <p>
-                    To start the process of obtaining you your warranty, scan/tip
-                    the following QR code which you have found inside your products packaging in order to establish a connection to
+                    To start the process of obtaining your warranty, scan/tip
+                    the following QR code which you have found inside your product's packaging in order to establish a connection to
                     the manufacturer.
                   </p>
                   <div className='d-flex justify-content-center'>
@@ -454,20 +454,20 @@ const MainAccordion = props => {
                 </Accordion.Header>
                 <Accordion.Body>
                   <p>
-                    You succesfully established a connection with the
+                    You successfully established a connection with the
                     manufacturer!
                   </p>
                   <p>
-                    Before issuing a warranty, the manufactuer asks for a
+                    Before issuing a warranty, the manufacturer asks for a
                     presentation of a valid eBon Credential in order to
-                    verifying when and where the tool was bought. The
+                    verify when and where the tool was bought. The
                     presentation request is sent directly to your Wallet. For
                     any such request, you can check which data is requested and
                     decide whether you want to share this data with the
                     requesting party.
                   </p>
                   <p>
-                    Notice that no personal data is queried. Instead, you present a proof
+                    Notice that no personal data is queried. Instead, you present proof
                     that you bought exactly this item and information about when and where it was bought.
                     Even more, you only partially disclose the ebon, keeping the price of the purchase secret.
                   </p>
@@ -497,7 +497,7 @@ const MainAccordion = props => {
                 </Accordion.Header>
                 <Accordion.Body>
                   <p>
-                    After manufacturer recieved your eBon data, he can run some further checks on your presentation to make super
+                    After the manufacturer recieves your eBon data, he can run some further checks on your presentation to make super
                     that no one requested a warranty for this exact item, the location and time of the purchase are plausible, etc.
                     Once your warranty request is found to be valid, the manufacturer sends your product warranty certificate directly to your wallet.
                   </p>
@@ -537,7 +537,7 @@ const MainAccordion = props => {
                     <img src={warranty} width='120' alt='eBon Credential' />
                   </div>
                   <p>
-                    You recieved the warranty credential from the manufacturer!
+                    You received the warranty credential from the manufacturer!
                     Now you have a digital representation of the product
                     warranty stored in your wallet. This information is
                     not stored in any central data bank but locally on your
@@ -547,8 +547,8 @@ const MainAccordion = props => {
                   <p>
                     Now, imagine that your tool has an unexpected malfunction.
                     Click the button below to open a warranty case with the
-                    manufacturer. In a real world scenario, this should be
-                    triggered directly form the warranty certificate.
+                    manufacturer. In a real-world scenario, this should be
+                    triggered directly from the warranty certificate.
                     Features to interact directly with your certificates/connections are currently under development
                     in many wallets.
                   </p>
@@ -584,16 +584,15 @@ const MainAccordion = props => {
                 </Accordion.Header>
                 <Accordion.Body>
                   <p>
-                    In order to open a warranty case, the manufacturer or a contracted service provider, will first
-                    ask you to present you warranty certificate via your Wallet.
+                    In order to open a warranty case, the manufacturer or a contracted service provider will first
+                    ask you to present your warranty certificate via your Wallet.
                   </p>
                   <p>
-                    Again, you can see <b>who</b> requests <b>what</b>
-                    data and decide whether to answer the presentation request.
+                    Again, you can see <b>who</b> requests <b>what data</b> and decide whether to answer the presentation request.
                   </p>
                   <p>
                     Additionally, you can
-                    description of the mal function directly with the warranty presentation.
+                    description of the malfunction directly with the warranty presentation.
                     Using this feature, you can get information directly from a customer
                     without the need of creating an account and logging him into a website.
                     The proof guarantees that the information entered stems from the warranty certificate holder.
