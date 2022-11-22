@@ -1,6 +1,8 @@
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import QRCode from 'react-qr-code'
+import {isMobile} from 'react-device-detect';
 
 const GS1Logo = require('./assets/logoGS1.png')
 const IDUnionLogo = require('./assets/IDunion_squard.png')
@@ -19,7 +21,7 @@ const Header = props => {
                 </a>
               </Col>
               <Col xs={6}>
-                <h1>eBon and Product Warranty via SSI - a Demonstration</h1>
+                <h1>eBon and Product Warranty via SSI - a Demonstration{!isMobile ?<QRCode className='ms-3' size={60} value={'https://demonstration-ssi.gs1-germany.de/'} />:''}</h1>
               </Col>
               <Col>
                 <a href='https://idunion.org/?lang=en'>
