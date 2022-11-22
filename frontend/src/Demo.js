@@ -9,6 +9,7 @@ import QRCode from 'react-qr-code'
 import Accordion from 'react-bootstrap/Accordion'
 import Spinner from 'react-bootstrap/Spinner'
 import Button from 'react-bootstrap/Button'
+import {isMobile} from 'react-device-detect';
 
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
@@ -192,21 +193,29 @@ const MainAccordion = props => {
               </a>{' '}
               . Please install this app now. You can safely delete it after the demo.
             </p>
-            <div className='d-flex flex-column align-items-center mb-2'>
+            <div className='d-flex flex-row align-items-center row justify-content-center mb-2'>
+              <div className='d-flex flex-column align-items-center col-md-3 p-3'>
+              {!isMobile ? <QRCode size={140} value={'https://play.google.com/store/apps/details?id=io.lissi.mobile.android'} /> : ''}
               <a
                 href='https://play.google.com/store/apps/details?id=io.lissi.mobile.android'
                 target='_blank'
                 rel='noreferrer'
+                className='mt-1 shadow'
               >
                 <PlayStoreLogo width='150' />
               </a>
+              </div>
+              <div className='d-flex flex-column align-items-center col-md-3 p-3'>
+              {!isMobile ? <QRCode size={140} value={'https://apps.apple.com/app/lissi-wallet/id1529848685'} /> : ''}
               <a
                 href='https://apps.apple.com/app/lissi-wallet/id1529848685'
                 target='_blank'
                 rel='noreferrer'
+                className='mt-1 shadow'
               >
                 <AppStoreLogo width='150' />
               </a>
+              </div>
             </div>
 
             <p>
