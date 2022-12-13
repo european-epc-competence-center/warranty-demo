@@ -334,7 +334,7 @@ acapyStore.on(ACAPY_CLIENT_EVENTS.CREDENTIAL_ISSUED, async connectionID => {
     //get connection invitation for manufacturer
     try {
       const manufacturerConnectionInvitation = await acapyManufacturer.getNewConnectionInvitation(
-        userStateResponseJson.data.demo_user_id
+        responseDemoStateJson.data.demo_user_id
       )
       const manufacturerInvitationURL =
         manufacturerConnectionInvitation.invitation_url
