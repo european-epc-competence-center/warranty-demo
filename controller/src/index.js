@@ -269,12 +269,13 @@ acapyStore.on(
         const attributesToIssue = {
           'eBon-id': generateDigitalLink(['253', getRandomGdti('eBon')]),
           date: new Date().toISOString(),
-          'item-id': generateDigitalLink([
+          'item-id': 'https://id.eecc.de/01/04012345999990/10/20210401-A/21/XYZ-1234',
+          /*generateDigitalLink([
             '01',
             someEeccGtin,
             '21',
             getRandomNumber(5)
-          ]),
+          ]),*/
           'item-name': 'Fancy Tool X100',
           'net-price-amount': '42.23',
           'net-price-currency': 'EUR',
