@@ -38,7 +38,11 @@ const Demo = () => {
   const [intervalID, setIntervalID] = useState(null)
   const [demoState, setDemoState] = useState({
     state: STORY_LINE[0],
-    data: {}
+    data: {
+      store_invitation_url: '',
+      manufacturer_invitation_url: ''
+
+    }
   })
 
   const [demoUserID, setDemoUserID] = useState('')
@@ -46,10 +50,6 @@ const Demo = () => {
   const [activeTab, setActiveTab] = useState('0')
 
   const [activeSubTab, setActiveSubTab] = useState('0')
-
-  const [activeQRCode, setActiveQRCode] = useState('')
-
-  const [bdrQrCodeValue, setBdrQrCodeValue] = useState('')
 
   const [demoStateReturned, setdemoStateReturned] = useState(true)
 
@@ -93,8 +93,6 @@ const Demo = () => {
     switch (recievedData.state) {
       case 'REQUESTED_CONNECTION_INVITATION_FROM_STORE_AND_BDR':
         setActiveTab('0')
-        setActiveQRCode(recievedData.data.store_invitation_url)
-        setBdrQrCodeValue(recievedData.data.bdr_invitation_url)
         break
       case 'ID_CREDENTIAL_OFFER_ACCEPTED':
         setActiveTab('1')
@@ -109,7 +107,6 @@ const Demo = () => {
       case 'REQUESTED_CONNECTION_INVITATION_FROM_MANUFACTURER':
         setActiveTab('2')
         setActiveSubTab('-1')
-        setActiveQRCode(recievedData.data.manufacturer_invitation_url)
         break
       case 'CONNECTION_ESTABLISHED_WITH_MANUFACTURER':
       case 'EBON_PRESENTATION_REQUEST_SENT_FROM_MANUFACTURER':
@@ -134,7 +131,7 @@ const Demo = () => {
       case 'ONLINE_ID_PRESENTATION_SENT_TO_MANUFACTURER':
       case 'ONLINE_ID_PRESENTATION_VERIFIED_BY_MANUFACTURER':
         setActiveSubTab('2')
-        if (restartTimer === restartDemoAfter) {
+        if (restartTimer >= restartDemoAfter) {
           setRestartTimer(restartDemoAfter - 1)
           setInterval(async () => {
             if (restartTimer <= 0) {
@@ -157,10 +154,8 @@ const Demo = () => {
       <MainAccordion
         activeMainKey={activeTab}
         activeSubKey={activeSubTab}
-        QRCodeValue={activeQRCode}
         demoUserID={demoUserID}
         demoState={demoState}
-        bdrQrCodeValue={bdrQrCodeValue}
         restartTimer={restartTimer}
       />
       <Footer />
@@ -266,8 +261,8 @@ const MainAccordion = props => {
 
             <div className='d-flex justify-content-center'>
               <div className='qrCode-wrapper'>
-                <a href={props.QRCodeValue}>
-                  <QRCode value={props.QRCodeValue} />
+                <a href={props.demoState.data.store_invitation_url}>
+                  <QRCode value={props.demoState.data.store_invitation_url} />
                 </a>
               </div>
             </div>
@@ -369,8 +364,8 @@ const MainAccordion = props => {
                   </p>
                   <div className='d-flex justify-content-center'>
                     <div className='qrCode-wrapper'>
-                      <a href={props.QRCodeValue}>
-                        <QRCode value={props.QRCodeValue} />
+                      <a href={props.demoState.data.manufacturer_invitation_url}>
+                        <QRCode value={props.demoState.data.manufacturer_invitation_url} />
                       </a>
                     </div>
                   </div>

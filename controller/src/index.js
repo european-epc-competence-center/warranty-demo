@@ -325,8 +325,8 @@ acapyStore.on(ACAPY_CLIENT_EVENTS.CREDENTIAL_ISSUED, async connectionID => {
     return
   }
   responseDemoStateJson.state =
-      DEMO_STATE.REQUESTED_CONNECTION_INVITATION_FROM_MANUFACTURER
- 
+    DEMO_STATE.REQUESTED_CONNECTION_INVITATION_FROM_MANUFACTURER
+
 })
 
 acapyManufacturer.on(
@@ -848,18 +848,19 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
 
     try {
       storeConnectionInvitation = await acapyStore.getNewConnectionInvitation(demoUserID)
-      bdrConnectionInvitation = await acapyBDR.getNewConnectionInvitation(demo_user_id)
-      manufacturerConnectionInvitation = await acapyManufacturer.getNewConnectionInvitation(demo_user_id)
-
+      bdrConnectionInvitation = await acapyBDR.getNewConnectionInvitation(demoUserID)
+      manufacturerConnectionInvitation = await acapyManufacturer.getNewConnectionInvitation(demoUserID)
     } catch (error) {
-      console.log(
+      console.error(
         `Error while trying to get connection invitations for new Demo Flow: ${error}`
       )
     }
 
-    if (!storeConnectionInvitation) {
-      console.log('Did not retreive a store connection invitation.')
-      res.status(500).send('Did not retreive a store connection invitation.')
+    if (!storeConnectionInvitation || !manufacturerConnectionInvitation) {
+      console.log('Did not retreive all connection invitations.')
+      console.log(storeConnectionInvitation)
+      console.log(manufacturerConnectionInvitation)
+      res.status(500).send('Did not retreive all connection invitations.')
       return
     }
 
@@ -876,8 +877,8 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
         store_invitation_url: storeDidCommInvitation,
         bdr_connection_id: bdrConnectionInvitation.connection_id,
         bdr_invitation_url: bdrDidCommInvitation,
-        manufacturer_connection_id:manufacturerConnectionInvitation.connection_id,
-        manufacturer_invitation_url:manufacturerDidCommInvitation
+        manufacturer_connection_id: manufacturerConnectionInvitation.connection_id,
+        manufacturer_invitation_url: manufacturerDidCommInvitation
       }
     }
 
