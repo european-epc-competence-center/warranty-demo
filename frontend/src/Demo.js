@@ -9,7 +9,7 @@ import QRCode from 'react-qr-code'
 import Accordion from 'react-bootstrap/Accordion'
 import Spinner from 'react-bootstrap/Spinner'
 import Button from 'react-bootstrap/Button'
-import {isMobile} from 'react-device-detect';
+import { isMobile } from 'react-device-detect';
 
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
@@ -95,9 +95,6 @@ const Demo = () => {
         setActiveSubTab('1')
         break
       case 'EBON_CREDENTIAL_OFFER_ACCEPTED':
-        setActiveTab('1')
-        setActiveSubTab('2')
-        break
       case 'REQUESTED_CONNECTION_INVITATION_FROM_MANUFACTURER':
         setActiveTab('2')
         setActiveSubTab('-1')
@@ -195,26 +192,26 @@ const MainAccordion = props => {
             </p>
             <div className='d-flex flex-row align-items-center row justify-content-center mb-2'>
               <div className='d-flex flex-column align-items-center col-md-3 p-3'>
-              {!isMobile ? <QRCode size={140} value={'https://play.google.com/store/apps/details?id=io.lissi.mobile.android'} /> : ''}
-              <a
-                href='https://play.google.com/store/apps/details?id=io.lissi.mobile.android'
-                target='_blank'
-                rel='noreferrer'
-                className='mt-1 shadow'
-              >
-                <PlayStoreLogo width='150' />
-              </a>
+                {!isMobile ? <QRCode size={140} value={'https://play.google.com/store/apps/details?id=io.lissi.mobile.android'} /> : ''}
+                <a
+                  href='https://play.google.com/store/apps/details?id=io.lissi.mobile.android'
+                  target='_blank'
+                  rel='noreferrer'
+                  className='mt-1 shadow'
+                >
+                  <PlayStoreLogo width='150' />
+                </a>
               </div>
               <div className='d-flex flex-column align-items-center col-md-3 p-3'>
-              {!isMobile ? <QRCode size={140} value={'https://apps.apple.com/app/lissi-wallet/id1529848685'} /> : ''}
-              <a
-                href='https://apps.apple.com/app/lissi-wallet/id1529848685'
-                target='_blank'
-                rel='noreferrer'
-                className='mt-1 shadow'
-              >
-                <AppStoreLogo width='150' />
-              </a>
+                {!isMobile ? <QRCode size={140} value={'https://apps.apple.com/app/lissi-wallet/id1529848685'} /> : ''}
+                <a
+                  href='https://apps.apple.com/app/lissi-wallet/id1529848685'
+                  target='_blank'
+                  rel='noreferrer'
+                  className='mt-1 shadow'
+                >
+                  <AppStoreLogo width='150' />
+                </a>
               </div>
             </div>
 
@@ -354,46 +351,6 @@ const MainAccordion = props => {
                   </div>
                 </Accordion.Body>
               </Accordion.Item>
-              <Accordion.Item eventKey='2'>
-                <Accordion.Header>
-                  <Container fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
-                    <Row>
-                      <Col>eBon Credential received</Col>
-                      <Col md={{ span: 1, offset: 5 }}>
-                        <DisplayCheckmark
-                          eventKey='2'
-                          activeSubKey={props.activeSubKey}
-                        />
-                      </Col>
-                    </Row>
-                  </Container>
-                </Accordion.Header>
-                <Accordion.Body>
-                  <div className='d-flex justify-content-center'>
-                    <img src={eBon} width='120' alt='eBon Credential' />
-                  </div>
-                  <p>
-                    You just obtained your first eBon Credential! It contains
-                    your eBon for your purchased tool. This credential is stored
-                    in your wallet, so you have full control over whom you want
-                    to show it. Just like a piece of paper in your physical
-                    wallet.
-                  </p>
-                  <p>
-                    Now imagine that you carried your bought product home. On
-                    the product (packaging) there is a QR Code for obtaining the
-                    warranty certificate. Click the button below to continue to
-                    that QR Code.
-                  </p>
-                  <div className='d-flex justify-content-center'>
-                    <NextStateButton
-                      currentState={props.demoState.state}
-                      label='Request Warranty'
-                      demoUserID={props.demoUserID}
-                    />
-                  </div>
-                </Accordion.Body>
-              </Accordion.Item>
             </Accordion>
           </Accordion.Body>
         </Accordion.Item>
@@ -425,10 +382,20 @@ const MainAccordion = props => {
                   </Container>
                 </Accordion.Header>
                 <Accordion.Body>
+                  <div className='d-flex justify-content-center'>
+                    <img src={eBon} width='120' alt='eBon Credential' />
+                  </div>
                   <p>
-                    To start the process of obtaining your warranty, scan/tip
-                    the following QR code which you have found inside your product's packaging in order to establish a connection to
-                    the manufacturer.
+                    You just obtained your first eBon Credential! It contains
+                    your eBon for your purchased tool. This credential is stored
+                    in your wallet, so you have full control over whom you want
+                    to show it. Just like a piece of paper in your physical
+                    wallet.
+                  </p>
+                  <p>
+                    Now imagine that you carried your bought product home. On
+                    the product (packaging) there is a QR Code for obtaining the
+                    warranty certificate.
                   </p>
                   <div className='d-flex justify-content-center'>
                     <div className='qrCode-wrapper'>

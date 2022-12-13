@@ -330,7 +330,34 @@ acapyStore.on(ACAPY_CLIENT_EVENTS.CREDENTIAL_ISSUED, async connectionID => {
     return
   }
 
-  responseDemoStateJson.state = DEMO_STATE.EBON_CREDENTIAL_OFFER_ACCEPTED
+    //get connection invitation for manufacturer
+    try {
+      const manufacturerConnectionInvitation = await acapyManufacturer.getNewConnectionInvitation(
+        userStateResponseJson.data.demo_user_id
+      )
+      const manufacturerInvitationURL =
+        manufacturerConnectionInvitation.invitation_url
+
+      //build DIDComm URL
+      const manufacturerInvitationUrlWithoutHost = manufacturerInvitationURL.substring(
+        manufacturerInvitationURL.indexOf('?'),
+        manufacturerInvitationURL.length
+      )
+      const manufacturerDidCommInvitation =
+        'didcomm://aries_connection_invitation' +
+        manufacturerInvitationUrlWithoutHost
+
+      //Update state data
+      responseDemoStateJson.data.manufacturer_connection_id =
+        manufacturerConnectionInvitation.connection_id
+      responseDemoStateJson.data.manufacturer_invitation_url = manufacturerDidCommInvitation
+      responseDemoStateJson.state =
+        DEMO_STATE.REQUESTED_CONNECTION_INVITATION_FROM_MANUFACTURER
+    } catch (error) {
+      console.log(
+        `Error while loading invitation from acapyManufacturer: ${error}.`
+      )
+    }
 })
 
 acapyManufacturer.on(
