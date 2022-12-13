@@ -100,7 +100,7 @@ const demoUserStates = []
 
 const someEeccGtin = 4047111007715
 const digitalLingDomainAndPath =
-  'https://vc-prototyping.gs1-germany.de/digital-link'
+  'https://id.eecc.de'
 /*------------------- DEMO DATA END -----------------*/
 
 // ---------------------------- AGENT PREPARATION START ------------------------------
@@ -270,13 +270,7 @@ acapyStore.on(
           'eBon-id': generateDigitalLink(['253', getRandomGdti('eBon')]),
           date: new Date().toISOString(),
           'item-id': 'https://id.eecc.de/01/04012345999990/10/20210401-A/21/XYZ-1234',
-          /*generateDigitalLink([
-            '01',
-            someEeccGtin,
-            '21',
-            getRandomNumber(5)
-          ]),*/
-          'item-name': 'Fancy Tool X100',
+          'item-name': 'Screwdriver One',
           'net-price-amount': '42.23',
           'net-price-currency': 'EUR',
           'vat-percent': '19',
@@ -287,7 +281,7 @@ acapyStore.on(
             'store1'
           ]),
           'vendor-id': generateDigitalLink(['417', someEeccGtin]),
-          'vendor-name': 'Fancy Tools Seller'
+          'vendor-name': 'Vendor'
         }
 
         const credentialOffer = await acapyStore.buildCredentialOffer(
@@ -503,7 +497,7 @@ acapyManufacturer.on(ACAPY_CLIENT_EVENTS.PRESENTATION_RECEIVED, async data => {
           //TODO:  update schema and set dynamic attributes (like current time stamp etc.) (also from eBon Credential)
           let warrantyId = generateDigitalLink([
             '253',
-            getRandomGdti('warranty')
+            getRandomGdti(data.connection_id)
           ])
 
           const attributesToIssue = {
