@@ -826,7 +826,7 @@ controllerApp.get('/api/claim_warranty/:connection_id', async (req, res) => {
 })
 
 controllerApp.get('/api/getDemoState', async (req, res) => {
-  const demoUserID = req.query.demo_user_id
+  var demoUserID = req.query.demo_user_id
 
   let responseDemoStateJson = {}
 
@@ -848,6 +848,7 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
 
     try {
       storeConnectionInvitation = await acapyStore.getNewConnectionInvitation(demoUserID)
+      demoUserID = storeConnectionInvitation.connection_id
       bdrConnectionInvitation = await acapyBDR.getNewConnectionInvitation(demoUserID)
       manufacturerConnectionInvitation = await acapyManufacturer.getNewConnectionInvitation(demoUserID)
     } catch (error) {
@@ -872,7 +873,7 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
       state: DEMO_STATE.REQUESTED_CONNECTION_INVITATION_FROM_STORE_AND_BDR,
       data: {
         //connection ID of store connection will be used as demo user identifier
-        demo_user_id: storeConnectionInvitation.connection_id,
+        demo_user_id: demoUserID,
         store_connection_id: storeConnectionInvitation.connection_id,
         store_invitation_url: storeDidCommInvitation,
         bdr_connection_id: bdrConnectionInvitation.connection_id,
