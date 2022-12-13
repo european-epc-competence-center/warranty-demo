@@ -30,6 +30,8 @@ const config = require('./Config.js')
 const STORY_LINE = config.DEMO_STATE
 const BACKEND_URL = config.BACKEND_URL
 
+const restartDemoAfter = 60
+
 const Demo = () => {
   console.log("Backend URL: " + BACKEND_URL);
 
@@ -50,6 +52,8 @@ const Demo = () => {
   const [bdrQrCodeValue, setBdrQrCodeValue] = useState('')
 
   const [demoStateReturned, setdemoStateReturned] = useState(true)
+
+  const [restartTimer, setRestartTimer] = useState(restartDemoAfter)
 
   useEffect(() => {
     if (intervalID) {
@@ -130,6 +134,15 @@ const Demo = () => {
       case 'ONLINE_ID_PRESENTATION_SENT_TO_MANUFACTURER':
       case 'ONLINE_ID_PRESENTATION_VERIFIED_BY_MANUFACTURER':
         setActiveSubTab('2')
+        if (restartTimer === restartDemoAfter) {
+          setRestartTimer(restartDemoAfter - 1)
+          setInterval(async () => {
+            if (restartTimer <= 0) {
+              reloadPage()
+            }
+            setRestartTimer(restartTimer - 1)
+          }, 1000)
+        }
         break
       case 'UNKNOWN':
       default:
@@ -148,6 +161,7 @@ const Demo = () => {
         demoUserID={demoUserID}
         demoState={demoState}
         bdrQrCodeValue={bdrQrCodeValue}
+        restartTimer={restartTimer}
       />
       <Footer />
     </div>
@@ -301,7 +315,7 @@ const MainAccordion = props => {
             </p>
             <div className='d-flex justify-content-center'>
               <NextStateButton
-                currentState={props.demoState.state}
+                nextState='EBON_CREDENTIAL_OFFER_ACCEPTED'
                 label='Skip'
                 force={true}
                 demoUserID={props.demoUserID}
@@ -570,7 +584,7 @@ const MainAccordion = props => {
 
                   <div className='d-flex justify-content-center'>
                     <Button variant='secondary' onClick={reloadPage} className="m-2">
-                      Restart Demo
+                      Restart Demo ({props.restartTimer})
                     </Button>
                   </div>
                 </Accordion.Body>

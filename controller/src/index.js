@@ -324,35 +324,9 @@ acapyStore.on(ACAPY_CLIENT_EVENTS.CREDENTIAL_ISSUED, async connectionID => {
     )
     return
   }
-
-  //get connection invitation for manufacturer
-  try {
-    const manufacturerConnectionInvitation = await acapyManufacturer.getNewConnectionInvitation(
-      responseDemoStateJson.data.demo_user_id
-    )
-    const manufacturerInvitationURL =
-      manufacturerConnectionInvitation.invitation_url
-
-    //build DIDComm URL
-    const manufacturerInvitationUrlWithoutHost = manufacturerInvitationURL.substring(
-      manufacturerInvitationURL.indexOf('?'),
-      manufacturerInvitationURL.length
-    )
-    const manufacturerDidCommInvitation =
-      'didcomm://aries_connection_invitation' +
-      manufacturerInvitationUrlWithoutHost
-
-    //Update state data
-    responseDemoStateJson.data.manufacturer_connection_id =
-      manufacturerConnectionInvitation.connection_id
-    responseDemoStateJson.data.manufacturer_invitation_url = manufacturerDidCommInvitation
-    responseDemoStateJson.state =
+  responseDemoStateJson.state =
       DEMO_STATE.REQUESTED_CONNECTION_INVITATION_FROM_MANUFACTURER
-  } catch (error) {
-    console.log(
-      `Error while loading invitation from acapyManufacturer: ${error}.`
-    )
-  }
+ 
 })
 
 acapyManufacturer.on(
@@ -441,27 +415,27 @@ acapyManufacturer.on(ACAPY_CLIENT_EVENTS.PRESENTATION_RECEIVED, async data => {
     responseDemoStateJson.state =
       DEMO_STATE.PRODUCT_CERTIFICATE_PRESENTATION_VERIFIED_BY_MANUFACTURER
 
-      /*
-    setTimeout(async () => {
-      const proofRequest = await acapyManufacturer.buildCustomProofRequest(
-        'BaseID',
-        responseDemoStateJson.data.manufacturer_connection_id,
-        [
-          'firstName',
-          'familyName',
-          'addressStreet',
-          'addressZipCode',
-          'addressCity',
-          'addressCountry'
-        ],
-        [{ cred_def_id: BDR_ONLINE_ID_CRED_DEF_ID }]
-      )
+    /*
+  setTimeout(async () => {
+    const proofRequest = await acapyManufacturer.buildCustomProofRequest(
+      'BaseID',
+      responseDemoStateJson.data.manufacturer_connection_id,
+      [
+        'firstName',
+        'familyName',
+        'addressStreet',
+        'addressZipCode',
+        'addressCity',
+        'addressCountry'
+      ],
+      [{ cred_def_id: BDR_ONLINE_ID_CRED_DEF_ID }]
+    )
 
-      await acapyManufacturer.sendProofRequest(proofRequest)
-      responseDemoStateJson.state =
-        DEMO_STATE.ONLINE_ID_PRESENTATION_REQUEST_SENT_FROM_MANUFACTURER
-    }, 5000)
-    */
+    await acapyManufacturer.sendProofRequest(proofRequest)
+    responseDemoStateJson.state =
+      DEMO_STATE.ONLINE_ID_PRESENTATION_REQUEST_SENT_FROM_MANUFACTURER
+  }, 5000)
+  */
   } else if (
     responseDemoStateJson.state ===
     DEMO_STATE.EBON_PRESENTATION_REQUEST_SENT_FROM_MANUFACTURER
@@ -629,7 +603,7 @@ function getDemoUserState(connectionID) {
     }
   }
 
-  //unknown demo user
+  console.log('unknown user ' + connectionID)
   return
 }
 
@@ -743,6 +717,16 @@ async function send_ebon_proof_request(manufacturer_connection_id) {
   }, 5000)
 
 }
+
+function build_did_comm_url(invitation_url) {
+  const without_host = invitation_url.substring(
+    storeInvitationURL.indexOf('?'),
+    storeInvitationURL.length
+  )
+  return 'didcomm://aries_connection_invitation' + without_host
+
+}
+
 // --------------------------- HELPER FUNCTIONS FOR AGENT SETUP END ---------------------
 
 //--------------------- FRONTEND CALLS START -----------------------------
@@ -817,39 +801,6 @@ controllerApp.post('/api/setDemoState', async (req, res) => {
 
     send_ebon_proof_request(userStateResponseJson.data.manufacturer_connection_id)
 
-  } else if (
-    nextState === DEMO_STATE.REQUESTED_CONNECTION_INVITATION_FROM_MANUFACTURER
-  ) {
-    setTimeout(async () => {
-      //get connection invitation for manufacturer
-      try {
-        const manufacturerConnectionInvitation = await acapyManufacturer.getNewConnectionInvitation(
-          userStateResponseJson.data.demo_user_id
-        )
-        const manufacturerInvitationURL =
-          manufacturerConnectionInvitation.invitation_url
-
-        //build DIDComm URL
-        const manufacturerInvitationUrlWithoutHost = manufacturerInvitationURL.substring(
-          manufacturerInvitationURL.indexOf('?'),
-          manufacturerInvitationURL.length
-        )
-        const manufacturerDidCommInvitation =
-          'didcomm://aries_connection_invitation' +
-          manufacturerInvitationUrlWithoutHost
-
-        //Update state data
-        userStateResponseJson.data.manufacturer_connection_id =
-          manufacturerConnectionInvitation.connection_id
-        userStateResponseJson.data.manufacturer_invitation_url = manufacturerDidCommInvitation
-        userStateResponseJson.state =
-          DEMO_STATE.REQUESTED_CONNECTION_INVITATION_FROM_MANUFACTURER
-      } catch (error) {
-        console.log(
-          `Error while loading invitation from acapyManufacturer: ${error}.`
-        )
-      }
-    }, 5000)
   } else {
     console.log(
       `Cannot go to state ${nextState}. User is at state ${userStateResponseJson.state}`
@@ -891,10 +842,15 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
 
     //get connection invitation for store 
 
-    let storeConnectionInvitation;
+    let storeConnectionInvitation
+    let bdrConnectionInvitation
+    let manufacturerConnectionInvitation
 
     try {
       storeConnectionInvitation = await acapyStore.getNewConnectionInvitation(demoUserID)
+      bdrConnectionInvitation = await acapyBDR.getNewConnectionInvitation(demo_user_id)
+      manufacturerConnectionInvitation = await acapyManufacturer.getNewConnectionInvitation(demo_user_id)
+
     } catch (error) {
       console.log(
         `Error while trying to get connection invitations for new Demo Flow: ${error}`
@@ -907,17 +863,9 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
       return
     }
 
-
-    const storeInvitationURL = storeConnectionInvitation.invitation_url
-
-    //build DIDComm URL for store
-    const storeInvitationUrlWithoutHost = storeInvitationURL.substring(
-      storeInvitationURL.indexOf('?'),
-      storeInvitationURL.length
-    )
-    const storeDidCommInvitation =
-      'didcomm://aries_connection_invitation' + storeInvitationUrlWithoutHost
-
+    const storeDidCommInvitation = build_did_comm_url(storeConnectionInvitation.invitation_url)
+    const bdrDidCommInvitation = build_did_comm_url(bdrConnectionInvitation.invitation_url)
+    const manufacturerDidCommInvitation = build_did_comm_url(manufacturerConnectionInvitation.invitation_url)
 
     responseDemoStateJson = {
       state: DEMO_STATE.REQUESTED_CONNECTION_INVITATION_FROM_STORE_AND_BDR,
@@ -925,49 +873,19 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
         //connection ID of store connection will be used as demo user identifier
         demo_user_id: storeConnectionInvitation.connection_id,
         store_connection_id: storeConnectionInvitation.connection_id,
-        store_invitation_url: storeDidCommInvitation
+        store_invitation_url: storeDidCommInvitation,
+        bdr_connection_id: bdrConnectionInvitation.connection_id,
+        bdr_invitation_url: bdrDidCommInvitation,
+        manufacturer_connection_id:manufacturerConnectionInvitation.connection_id,
+        manufacturer_invitation_url:manufacturerDidCommInvitation
       }
     }
 
-
-
-    demoUserStates[
-      responseDemoStateJson.data.demo_user_id
-    ] = responseDemoStateJson
+    demoUserStates[responseDemoStateJson.data.demo_user_id] = responseDemoStateJson
     console.log(
       'Started Demo Flow for demo_user_id:' +
       storeConnectionInvitation.connection_id
     )
-
-    //get connection invitation for BDR MOCK    
-    let bdrConnectionInvitation;
-
-    try {
-      bdrConnectionInvitation = await acapyBDR.getNewConnectionInvitation(responseDemoStateJson.data.demo_user_id)
-    } catch (error) {
-      console.log(
-        `Error while trying to get connection invitations for BDR: ${error}`
-      )
-    }
-
-    //get invitation URL
-    const bdrInvitationURL = bdrConnectionInvitation.invitation_url
-
-    // build DIDComm URL 
-    const bdrInvitationUrlWithoutHost = bdrInvitationURL.substring(
-      bdrInvitationURL.indexOf('?'),
-      bdrInvitationURL.length
-    )
-
-    const bdrDidCommInvitation =
-      'didcomm://aries_connection_invitation' + bdrInvitationUrlWithoutHost
-
-
-    //Update state data
-    responseDemoStateJson.data.bdr_connection_id = bdrConnectionInvitation.connection_id;
-    responseDemoStateJson.data.bdr_invitation_url = bdrDidCommInvitation;
-
-
 
   } else {
     // we know the demo user --> just (re)send the (probably because of webhooks) prepared data without state change.
