@@ -17,20 +17,21 @@ const Header = props => {
             <Row>
               <Col>
                 <a href='https://www.gs1-germany.de/'>
-                  <img src={GS1Logo} height='120' alt='GS1 Logo' />
+                  <img className='header-logo' src={GS1Logo} alt='GS1 Logo' />
                 </a>
               </Col>
-              <Col xs={6}>
-                <h1>eBon and Product Warranty via SSI - a Demonstration{!isMobile ?<QRCode className='ms-3' size={60} value={'https://demonstration-ssi.gs1-germany.de/'} />:''}</h1>
+              {!isMobile ?<Col><QRCode size={80} value={'https://demonstration-ssi.gs1-germany.de/'} /></Col>:''}
+              <Col xs={12} xl={7}>
+                <h1>eBon and Product Warranty via SSI - a Demonstration</h1>
               </Col>
               <Col>
                 <a href='https://idunion.org/?lang=en'>
-                  <img src={IDUnionLogo} height='120' alt='ID Union Logo' />
+                  <img className='header-logo' src={IDUnionLogo}  alt='ID Union Logo' />
                 </a>
               </Col>
               <Col>
                 <a href='https://id-ideal.de/en/'>
-                  <img src={IDIdealLogo} height='120' alt='ID Ideal Logo' />
+                  <img src={IDIdealLogo} className='header-logo' alt='ID Ideal Logo' />
                 </a>
               </Col>
             </Row>

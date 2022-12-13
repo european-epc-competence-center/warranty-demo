@@ -1096,3 +1096,9 @@ p {
 button.accordion-button::after {
   filter: opacity(0%);
 }
+
+.header-logo {  
+  max-width: 100%;
+  max-height: 8rem;
+  margin: auto;
+}
