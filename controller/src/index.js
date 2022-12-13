@@ -16,7 +16,7 @@ const storeSubwalletName =
   process.env.STORE_SUBWALLET_NAME || 'VendorWalletName'
 const manufacturerSubwalletName =
   process.env.MANUFACTURER_SUBWALLET_NAME || 'ManufacturerWalletName'
-const bdrSubwalletName = 
+const bdrSubwalletName =
   process.env.BDR_MOCK_SUBWALLET_NAME || 'BDRWalletName'
 
 let storeWebhookPort = process.env.STORE_WEBHOOK_PORT || 7000
@@ -192,7 +192,7 @@ acapyBDR.on(
     console.log(
       `Acapy BDR: connection established: ${connectionData.connection_id}`
     )
-    
+
     const responseDemoStateJson = getDemoUserState(connectionData.connection_id)
     if (!responseDemoStateJson) {
       console.log(
@@ -235,16 +235,16 @@ acapyBDR.on(
 
 acapyBDR.on(ACAPY_CLIENT_EVENTS.CREDENTIAL_ISSUED, async connectionID => {
   console.log(`AcapyBDR: Issued Credential for connection ${connectionID}.`)
-  
-  const responseDemoStateJson = getDemoUserState(connectionID)
-    if (!responseDemoStateJson) {
-      console.log(
-        'ERROR: Credential issued to someone who is not known as Demo User'
-      )
-      return
-    }
 
-  responseDemoStateJson.state = DEMO_STATE.ID_CREDENTIAL_OFFER_ACCEPTED; 
+  const responseDemoStateJson = getDemoUserState(connectionID)
+  if (!responseDemoStateJson) {
+    console.log(
+      'ERROR: Credential issued to someone who is not known as Demo User'
+    )
+    return
+  }
+
+  responseDemoStateJson.state = DEMO_STATE.ID_CREDENTIAL_OFFER_ACCEPTED;
 })
 
 acapyStore.on(
@@ -325,34 +325,34 @@ acapyStore.on(ACAPY_CLIENT_EVENTS.CREDENTIAL_ISSUED, async connectionID => {
     return
   }
 
-    //get connection invitation for manufacturer
-    try {
-      const manufacturerConnectionInvitation = await acapyManufacturer.getNewConnectionInvitation(
-        responseDemoStateJson.data.demo_user_id
-      )
-      const manufacturerInvitationURL =
-        manufacturerConnectionInvitation.invitation_url
+  //get connection invitation for manufacturer
+  try {
+    const manufacturerConnectionInvitation = await acapyManufacturer.getNewConnectionInvitation(
+      responseDemoStateJson.data.demo_user_id
+    )
+    const manufacturerInvitationURL =
+      manufacturerConnectionInvitation.invitation_url
 
-      //build DIDComm URL
-      const manufacturerInvitationUrlWithoutHost = manufacturerInvitationURL.substring(
-        manufacturerInvitationURL.indexOf('?'),
-        manufacturerInvitationURL.length
-      )
-      const manufacturerDidCommInvitation =
-        'didcomm://aries_connection_invitation' +
-        manufacturerInvitationUrlWithoutHost
+    //build DIDComm URL
+    const manufacturerInvitationUrlWithoutHost = manufacturerInvitationURL.substring(
+      manufacturerInvitationURL.indexOf('?'),
+      manufacturerInvitationURL.length
+    )
+    const manufacturerDidCommInvitation =
+      'didcomm://aries_connection_invitation' +
+      manufacturerInvitationUrlWithoutHost
 
-      //Update state data
-      responseDemoStateJson.data.manufacturer_connection_id =
-        manufacturerConnectionInvitation.connection_id
-      responseDemoStateJson.data.manufacturer_invitation_url = manufacturerDidCommInvitation
-      responseDemoStateJson.state =
-        DEMO_STATE.REQUESTED_CONNECTION_INVITATION_FROM_MANUFACTURER
-    } catch (error) {
-      console.log(
-        `Error while loading invitation from acapyManufacturer: ${error}.`
-      )
-    }
+    //Update state data
+    responseDemoStateJson.data.manufacturer_connection_id =
+      manufacturerConnectionInvitation.connection_id
+    responseDemoStateJson.data.manufacturer_invitation_url = manufacturerDidCommInvitation
+    responseDemoStateJson.state =
+      DEMO_STATE.REQUESTED_CONNECTION_INVITATION_FROM_MANUFACTURER
+  } catch (error) {
+    console.log(
+      `Error while loading invitation from acapyManufacturer: ${error}.`
+    )
+  }
 })
 
 acapyManufacturer.on(
@@ -379,17 +379,17 @@ acapyManufacturer.on(
         'eBon',
         responseDemoStateJson.data.manufacturer_connection_id,
         [
-            'item-name',
-            'item-id',
-            'vendor-name',
-            'vendor-id',
-            'eBon-id',
-            'date',
-            'location-id'
-          ],
-          [{ cred_def_id: EBON_CRED_DEF_ID }]
+          'item-name',
+          'item-id',
+          'vendor-name',
+          'vendor-id',
+          'eBon-id',
+          'date',
+          'location-id'
+        ],
+        [{ cred_def_id: EBON_CRED_DEF_ID }]
       )
-      
+
       await acapyManufacturer.sendProofRequest(proofRequest)
       responseDemoStateJson.state =
         DEMO_STATE.EBON_PRESENTATION_REQUEST_SENT_FROM_MANUFACTURER
@@ -448,16 +448,16 @@ acapyManufacturer.on(ACAPY_CLIENT_EVENTS.PRESENTATION_RECEIVED, async data => {
         'BaseID',
         responseDemoStateJson.data.manufacturer_connection_id,
         [
-            'firstName',
-            'familyName',
-            'addressStreet',
-            'addressZipCode',
-            'addressCity',
-            'addressCountry'
-          ],
-          [{ cred_def_id: BDR_ONLINE_ID_CRED_DEF_ID }]
+          'firstName',
+          'familyName',
+          'addressStreet',
+          'addressZipCode',
+          'addressCity',
+          'addressCountry'
+        ],
+        [{ cred_def_id: BDR_ONLINE_ID_CRED_DEF_ID }]
       )
-      
+
       await acapyManufacturer.sendProofRequest(proofRequest)
       responseDemoStateJson.state =
         DEMO_STATE.ONLINE_ID_PRESENTATION_REQUEST_SENT_FROM_MANUFACTURER
@@ -518,7 +518,7 @@ acapyManufacturer.on(ACAPY_CLIENT_EVENTS.PRESENTATION_RECEIVED, async data => {
             'eBon-id': verificationResult['RequestedAttributes'].find(
               attrObject => attrObject['attr_name'] === 'eBon-id'
             )['attr_value'],
-            'claim-endpoint': warrantyId + '?linktype=claim_warranty'
+            'claim-endpoint': "https://warranty-demo.ssi.eecc.de/api/claim_warranty/" + data.connection_id
           }
 
           const credentialOffer = await acapyManufacturer.buildCredentialOffer(
@@ -571,7 +571,7 @@ acapyManufacturer.on(
 // --------------------------- HELPER FUNCTIONS ----------------------------
 
 // generateDigitalLing([ai1,id1, ai2,id2,...])
-function generateDigitalLink (parameters) {
+function generateDigitalLink(parameters) {
   let dl = digitalLingDomainAndPath
   let i = 0
   while (i + 1 < parameters.length) {
@@ -581,11 +581,11 @@ function generateDigitalLink (parameters) {
   return dl
 }
 
-function getRandomGdti (prefix) {
+function getRandomGdti(prefix) {
   return someEeccGtin + prefix + getRandomString(15 - prefix.length)
 }
 
-function getRandomString (amount) {
+function getRandomString(amount) {
   var chars = ''
   var characters =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -597,14 +597,14 @@ function getRandomString (amount) {
   return chars
 }
 
-function getRandomNumber (amount) {
+function getRandomNumber(amount) {
   let digits = ''
   for (let i = 0; i < amount; ++i) digits += Math.floor(Math.random() * 10)
 
   return digits
 }
 
-function getDemoUserState (connectionID) {
+function getDemoUserState(connectionID) {
   //no ID given
   if (!connectionID) {
     return
@@ -633,7 +633,7 @@ function getDemoUserState (connectionID) {
   return
 }
 
-async function connectAgent (agent) {
+async function connectAgent(agent) {
   const intervalID = setInterval(
     async agent => {
       console.log(`Trying to connect to agent ${agent.agentName}...`)
@@ -654,7 +654,7 @@ async function connectAgent (agent) {
   )
 }
 
-async function prepareSchemaAndCredDef (schema, agent) {
+async function prepareSchemaAndCredDef(schema, agent) {
   if (!agent || !agent instanceof AcapyClient) {
     throw `Please provide an instance of AcapyClient.`
   }
@@ -713,6 +713,36 @@ async function prepareSchemaAndCredDef (schema, agent) {
   return [schemaID, credDefId]
 }
 
+
+async function send_ebon_proof_request(manufacturer_connection_id) {
+  setTimeout(async () => {
+
+    const proofRequest = await acapyManufacturer.buildCustomProofRequest(
+      'Productcertificate and Error Description',
+      manufacturer_connection_id,
+      [
+        'warranty-id',
+        'valid-through',
+        'item-id',
+        'item-name',
+        'vendor-id',
+        'vendor-name',
+        'eBon-id'
+      ],
+      [{ cred_def_id: PRODUCT_CERTIFICATE_CRED_DEF_ID }]
+    )
+
+    proofRequest['proof_request']['requested_attributes']['error-description'] = {
+      name: 'Malfunction:',
+      restrictions: []
+    }
+
+    await acapyManufacturer.sendProofRequest(proofRequest)
+    demoUserStates[getDemoUserState(manufacturer_connection_id).data.demo_user_id].state = DEMO_STATE.PRODUCT_CERTIFICATE_REQUEST_SENT_FROM_MANUFACTURER
+
+  }, 5000)
+
+}
 // --------------------------- HELPER FUNCTIONS FOR AGENT SETUP END ---------------------
 
 //--------------------- FRONTEND CALLS START -----------------------------
@@ -783,35 +813,9 @@ controllerApp.post('/api/setDemoState', async (req, res) => {
       return
     }
 
-    userStateResponseJson.state =
-      DEMO_STATE.WARRANTY_CASE_FLOW_INITIATED_BY_USER
+    userStateResponseJson.state = DEMO_STATE.WARRANTY_CASE_FLOW_INITIATED_BY_USER
 
-    setTimeout(async () => {
-
-      const proofRequest = await acapyManufacturer.buildCustomProofRequest(
-        'Productcertificate and Error Description',
-        userStateResponseJson.data.manufacturer_connection_id,
-        [
-            'warranty-id',
-            'valid-through',
-            'item-id',
-            'item-name',
-            'vendor-id',
-            'vendor-name',
-            'eBon-id'
-          ],
-          [{ cred_def_id: PRODUCT_CERTIFICATE_CRED_DEF_ID }]
-      )
-      
-      proofRequest['proof_request']['requested_attributes']['error-description']={
-        name: 'Malfunction:',
-        restrictions: []
-      }
-
-      await acapyManufacturer.sendProofRequest(proofRequest)
-      userStateResponseJson.state =
-        DEMO_STATE.PRODUCT_CERTIFICATE_REQUEST_SENT_FROM_MANUFACTURER
-    }, 5000)
+    send_ebon_proof_request(userStateResponseJson.data.manufacturer_connection_id)
 
   } else if (
     nextState === DEMO_STATE.REQUESTED_CONNECTION_INVITATION_FROM_MANUFACTURER
@@ -862,6 +866,14 @@ controllerApp.post('/api/setDemoState', async (req, res) => {
   res.send(JSON.stringify(userStateResponseJson))
 })
 
+controllerApp.get('/api/claim_warranty/:connection_id', async (req, res) => {
+  const demoUserID = req.params.connection_id
+  const userState = getDemoUserState(demoUserID)
+
+  send_ebon_proof_request(userState.data.manufacturer_connection_id)
+
+})
+
 controllerApp.get('/api/getDemoState', async (req, res) => {
   const demoUserID = req.query.demo_user_id
 
@@ -874,13 +886,13 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     !demoUserStates[demoUserID].state ||
     demoUserStates[demoUserID].state === DEMO_STATE.UNKNOWN
   ) {
-    
+
     //No idea who is calling. -->Start Demo Flow from beginning
 
     //get connection invitation for store 
-    
+
     let storeConnectionInvitation;
-    
+
     try {
       storeConnectionInvitation = await acapyStore.getNewConnectionInvitation(demoUserID)
     } catch (error) {
@@ -894,7 +906,7 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
       res.status(500).send('Did not retreive a store connection invitation.')
       return
     }
-    
+
 
     const storeInvitationURL = storeConnectionInvitation.invitation_url
 
@@ -905,8 +917,8 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     )
     const storeDidCommInvitation =
       'didcomm://aries_connection_invitation' + storeInvitationUrlWithoutHost
-      
-      
+
+
     responseDemoStateJson = {
       state: DEMO_STATE.REQUESTED_CONNECTION_INVITATION_FROM_STORE_AND_BDR,
       data: {
@@ -917,16 +929,16 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
       }
     }
 
-    
+
 
     demoUserStates[
       responseDemoStateJson.data.demo_user_id
     ] = responseDemoStateJson
     console.log(
       'Started Demo Flow for demo_user_id:' +
-        storeConnectionInvitation.connection_id
-    ) 
-    
+      storeConnectionInvitation.connection_id
+    )
+
     //get connection invitation for BDR MOCK    
     let bdrConnectionInvitation;
 
@@ -937,7 +949,7 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
         `Error while trying to get connection invitations for BDR: ${error}`
       )
     }
-    
+
     //get invitation URL
     const bdrInvitationURL = bdrConnectionInvitation.invitation_url
 
@@ -946,16 +958,16 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
       bdrInvitationURL.indexOf('?'),
       bdrInvitationURL.length
     )
-    
+
     const bdrDidCommInvitation =
       'didcomm://aries_connection_invitation' + bdrInvitationUrlWithoutHost
-  
+
 
     //Update state data
     responseDemoStateJson.data.bdr_connection_id = bdrConnectionInvitation.connection_id;
     responseDemoStateJson.data.bdr_invitation_url = bdrDidCommInvitation;
-    
-  
+
+
 
   } else {
     // we know the demo user --> just (re)send the (probably because of webhooks) prepared data without state change.
@@ -963,9 +975,9 @@ controllerApp.get('/api/getDemoState', async (req, res) => {
     responseDemoStateJson = getDemoUserState(demoUserID)
     console.log(
       'Demo_user_id ' +
-        demoUserID +
-        ' is in state ' +
-        responseDemoStateJson.state
+      demoUserID +
+      ' is in state ' +
+      responseDemoStateJson.state
     )
   }
 

@@ -481,10 +481,9 @@ const MainAccordion = props => {
                   <p>
                     Now, imagine that your tool has an unexpected malfunction.
                     Click the button below to open a warranty case with the
-                    manufacturer. In a real-world scenario, this should be
-                    triggered directly from the warranty certificate.
-                    Features to interact directly with your certificates/connections are currently under development
-                    in many wallets.
+                    manufacturer. You can use the warranty certifiate in your wallet
+                    to trigger a warranty case. To this end, just follow the "claim-endpoint"
+                    link. Alternatively, just click the button below:
                   </p>
                   <div className='d-flex justify-content-center'>
                     <NextStateButton
