@@ -49,6 +49,8 @@ const Demo = () => {
 
   const [bdrQrCodeValue, setBdrQrCodeValue] = useState('')
 
+  const [demoStateReturned, setdemoStateReturned] = useState(true)
+
   useEffect(() => {
     if (intervalID) {
       clearInterval(intervalID)
@@ -56,9 +58,14 @@ const Demo = () => {
 
     setIntervalID(
       setInterval(async () => {
+        if(!demoStateReturned){
+          return;
+        }
+        setdemoStateReturned(false)
         const res = await axios.get(BACKEND_URL + '/api/getDemoState', {
           params: { demo_user_id: demoUserID }
         })
+        setdemoStateReturned(true)
         const recievedData = res.data
 
         if (recievedData && recievedData.data) {
@@ -227,24 +234,32 @@ const MainAccordion = props => {
 
             <h2>Getting Started</h2>
             <p>
-              To obtain your first verifiable credential and start this demo, please scan/tip the QR code below.
-              This will initiate a communication with a mock of a Bundesdruckerei Service.
-              This service is actual work in progress that will enable you to derive a base ID credential with a high trust level
-              from your German national ID card (eID). For this demonstration, we will provide you with a demo ID
-              that has a similar structure to the actual base ID. Please accept this credential to start the next step of the demo.
+              The actual user story of this demo starts in a DIY store, where you have just bought a new tool.
+            </p>
+
+            <div className='d-flex justify-content-center m-3'>
+              <img src={eBonOverview} width='70%' alt='eBon use case' />
+            </div>
+            
+            <p>
+              After the purchase, the vendor offers an eBon
+              credential by showing this QR code at the point of sale.
+              Since this is the first time that you are buying in this shop, you do not yet have a connection to the vendor.
+              This is the SSI jargon to say that the vendor is not in your SSI contact list. Let's remedy this.
             </p>
             <p>
-              Importantly, any credential in your wallet can only be accessed with your explicit consent.
-              We demonstrate data minimal flows in the following. Mind who asks for what and, in particular, which information can stay private.
-              Spoiler: you may skip this step without disturbing the demo much.
+              Please scan/tip the QR code below. This will establish a
+              connection with the vendor.
             </p>
+
             <div className='d-flex justify-content-center'>
               <div className='qrCode-wrapper'>
-                <a href={props.bdrQrCodeValue}>
-                  <QRCode value={props.bdrQrCodeValue} />
+                <a href={props.QRCodeValue}>
+                  <QRCode value={props.QRCodeValue} />
                 </a>
               </div>
             </div>
+
             <div className='d-flex justify-content-center'>
               <NextStateButton
                 currentState={props.demoState.state}
@@ -256,104 +271,47 @@ const MainAccordion = props => {
           </Accordion.Body>
         </Accordion.Item>
         <Accordion.Item eventKey='1'>
-          <Accordion.Header>Use Case: eBon</Accordion.Header>
+          <Accordion.Header>
+            <Container fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
+              <Row>
+                <Col>Receiving eBon</Col>
+                <Col md={{ span: 1, offset: 5 }}>
+                  <DisplayCheckmark
+                    eventKey='1'
+                    activeSubKey={props.activeSubKey}
+                  />
+                </Col>
+              </Row>
+            </Container>
+          </Accordion.Header>
           <Accordion.Body>
-            <Accordion activeKey={props.activeSubKey}>
-              <div className='d-flex justify-content-center m-3'>
-                <img src={eBonOverview} width='80%' alt='eBon use case' />
-              </div>
-              <p>
-                The actual user story of this demo starts in a DIY store, where you have just bought a new tool.
-              </p>
-              <Accordion.Item eventKey='0'>
-                <Accordion.Header>
-                  <Container fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
-                    <Row>
-                      <Col>Connecting to the vendor </Col>
-                      <Col md={{ span: 1, offset: 5 }}>
-                        <DisplayCheckmark
-                          eventKey='0'
-                          activeSubKey={props.activeSubKey}
-                        />
-                      </Col>
-                    </Row>
-                  </Container>
-                </Accordion.Header>
-                <Accordion.Body>
-                  <p>
-                    After the purchase, the vendor offers an eBon
-                    credential by showing this QR code at the point of sale.
-                    Since this is the first time that you are buying in this shop, you do not yet have a connection to the vendor.
-                    This is the SSI jargon to say that the vendor is not in your SSI contact list. Let's remedy this.
-                  </p>
-                  <p>
-                    Please scan/tip the QR code below. This will establish a
-                    connection with the vendor.
-                  </p>
-
-                  <div className='d-flex justify-content-center'>
-                    <div className='qrCode-wrapper'>
-                      <a href={props.QRCodeValue}>
-                        <QRCode value={props.QRCodeValue} />
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className='d-flex justify-content-center'>
-                    <NextStateButton
-                      currentState={props.demoState.state}
-                      label='Skip'
-                      steps={2}
-                      force={true}
-                      demoUserID={props.demoUserID}
-                    />
-                  </div>
-                </Accordion.Body>
-              </Accordion.Item>
-              <Accordion.Item eventKey='1'>
-                <Accordion.Header>
-                  <Container fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
-                    <Row>
-                      <Col>Receiving eBon</Col>
-                      <Col md={{ span: 1, offset: 5 }}>
-                        <DisplayCheckmark
-                          eventKey='1'
-                          activeSubKey={props.activeSubKey}
-                        />
-                      </Col>
-                    </Row>
-                  </Container>
-                </Accordion.Header>
-                <Accordion.Body>
-                  <p>
-                    You have established a connection to the vendor.
-                    For the vendor, SSI connections offer very interesting possibilities in terms of CRM which we discuss in another demo.
-                    For now, the vendor will just send an eBon
-                    Credential directly to your wallet over the established connection.
-                  </p>
-                  <p>
-                    Note that no information about yourself was revealed. The vendor can associate the information about your purchase with your pseudonymous
-                    connection (id), but you may choose to create a new pseudonymous connection for each purchase.
-                    The vendor may offer benefits if you re-use an existing connection and hence start to accumulate information
-                    about you as a frequent customer, but you do not have to take this offer in order to benefit from the eBon credentials.
-                    The data sovereignty stays entirely with the user.
-                  </p>
-                  <p>
-                    Please accept the credential offer in your wallet.
-                  </p>
-                  <div className='d-flex justify-content-center'>
-                    <NextStateButton
-                      currentState={props.demoState.state}
-                      label='Skip'
-                      force={true}
-                      demoUserID={props.demoUserID}
-                    />
-                  </div>
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion>
+            <p>
+              You have established a connection to the vendor.
+              For the vendor, SSI connections offer very interesting possibilities in terms of CRM which we discuss in another demo.
+              For now, the vendor will just send an eBon
+              Credential directly to your wallet over the established connection.
+            </p>
+            <p>
+              Note that no information about yourself was revealed. The vendor can associate the information about your purchase with your pseudonymous
+              connection (id), but you may choose to create a new pseudonymous connection for each purchase.
+              The vendor may offer benefits if you re-use an existing connection and hence start to accumulate information
+              about you as a frequent customer, but you do not have to take this offer in order to benefit from the eBon credentials.
+              The data sovereignty stays entirely with the user.
+            </p>
+            <p>
+              Please accept the credential offer in your wallet.
+            </p>
+            <div className='d-flex justify-content-center'>
+              <NextStateButton
+                currentState={props.demoState.state}
+                label='Skip'
+                force={true}
+                demoUserID={props.demoUserID}
+              />
+            </div>
           </Accordion.Body>
         </Accordion.Item>
+
         <Accordion.Item eventKey='2'>
           <Accordion.Header>Warranty Certificate</Accordion.Header>
           <Accordion.Body>
