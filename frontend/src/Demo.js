@@ -58,7 +58,7 @@ const Demo = () => {
 
     setIntervalID(
       setInterval(async () => {
-        if(!demoStateReturned){
+        if (!demoStateReturned) {
           return;
         }
         setdemoStateReturned(false)
@@ -127,8 +127,6 @@ const Demo = () => {
         break
       case 'PRODUCT_CERTIFICATE_PRESENTATION_VERIFIED_BY_MANUFACTURER':
       case 'ONLINE_ID_PRESENTATION_REQUEST_SENT_FROM_MANUFACTURER':
-        setActiveSubTab('1')
-        break
       case 'ONLINE_ID_PRESENTATION_SENT_TO_MANUFACTURER':
       case 'ONLINE_ID_PRESENTATION_VERIFIED_BY_MANUFACTURER':
         setActiveSubTab('2')
@@ -240,7 +238,7 @@ const MainAccordion = props => {
             <div className='d-flex justify-content-center m-3'>
               <img src={eBonOverview} width='70%' alt='eBon use case' />
             </div>
-            
+
             <p>
               After the purchase, the vendor offers an eBon
               credential by showing this QR code at the point of sale.
@@ -534,39 +532,7 @@ const MainAccordion = props => {
                     <NextStateButton
                       currentState={props.demoState.state}
                       label='Skip'
-                      steps={3}
-                      force={true}
-                      demoUserID={props.demoUserID}
-                    />
-                  </div>
-                </Accordion.Body>
-              </Accordion.Item>
-              <Accordion.Item eventKey='1'>
-                <Accordion.Header>
-                  <Container fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
-                    <Row>
-                      <Col>Request Pick Up</Col>
-                      <Col md={{ span: 1, offset: 5 }}>
-                        <DisplayCheckmark
-                          eventKey='1'
-                          activeSubKey={props.activeSubKey}
-                        />
-                      </Col>
-                    </Row>
-                  </Container>
-                </Accordion.Header>
-                <Accordion.Body>
-                  <p>The manufacturer found your Warranty to be valid!</p>
-                  <p>
-                    You may now order a pick up of your tool. To this end, you
-                    can present your address data from your base ID credential.
-                    This step demonstrates how personaldata can be imported from your wallet if and only if you consent.
-                  </p>
-                  <div className='d-flex justify-content-center'>
-                    <NextStateButton
-                      currentState={props.demoState.state}
-                      label='Skip'
-                      steps={1}
+                      nextState={'ONLINE_ID_PRESENTATION_VERIFIED_BY_MANUFACTURER'}
                       force={true}
                       demoUserID={props.demoUserID}
                     />
@@ -576,7 +542,10 @@ const MainAccordion = props => {
               <Accordion.Item eventKey='2'>
                 <Accordion.Header>Happy End</Accordion.Header>
                 <Accordion.Body>
-                  <p>Your product is picked up, repaired, and returned!</p>
+                  <p>
+                    The manufacturer found your Warranty to be valid!
+                    Your product will be repaired!
+                  </p>
                   <p>
                     The main advantages of using Verifiable credentials in this
                     demo are:

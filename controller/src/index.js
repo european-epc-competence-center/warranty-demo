@@ -441,9 +441,8 @@ acapyManufacturer.on(ACAPY_CLIENT_EVENTS.PRESENTATION_RECEIVED, async data => {
     responseDemoStateJson.state =
       DEMO_STATE.PRODUCT_CERTIFICATE_PRESENTATION_VERIFIED_BY_MANUFACTURER
 
+      /*
     setTimeout(async () => {
-
-
       const proofRequest = await acapyManufacturer.buildCustomProofRequest(
         'BaseID',
         responseDemoStateJson.data.manufacturer_connection_id,
@@ -462,6 +461,7 @@ acapyManufacturer.on(ACAPY_CLIENT_EVENTS.PRESENTATION_RECEIVED, async data => {
       responseDemoStateJson.state =
         DEMO_STATE.ONLINE_ID_PRESENTATION_REQUEST_SENT_FROM_MANUFACTURER
     }, 5000)
+    */
   } else if (
     responseDemoStateJson.state ===
     DEMO_STATE.EBON_PRESENTATION_REQUEST_SENT_FROM_MANUFACTURER
