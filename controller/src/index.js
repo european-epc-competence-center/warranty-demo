@@ -720,8 +720,8 @@ async function send_ebon_proof_request(manufacturer_connection_id) {
 
 function build_did_comm_url(invitation_url) {
   const without_host = invitation_url.substring(
-    storeInvitationURL.indexOf('?'),
-    storeInvitationURL.length
+    invitation_url.indexOf('?'),
+    invitation_url.length
   )
   return 'didcomm://aries_connection_invitation' + without_host
 
