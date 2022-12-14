@@ -38,6 +38,10 @@ var getDemoStateInFlight = false
 const Demo = () => {
   // console.log("Backend URL: " + BACKEND_URL);
 
+
+  const params = new URLSearchParams(window.location.search);
+  const idParam = params.get("id");
+
   const [intervalID, setIntervalID] = useState(null)
   const [demoState, setDemoState] = useState({
     state: STORY_LINE[0],
@@ -48,7 +52,7 @@ const Demo = () => {
     }
   })
 
-  const [demoUserID, setDemoUserID] = useState('')
+  const [demoUserID, setDemoUserID] = useState(idParam)
 
   const [activeTab, setActiveTab] = useState('0')
 

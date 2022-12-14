@@ -823,6 +823,9 @@ controllerApp.get('/api/claim_warranty/:connection_id', async (req, res) => {
 
   send_ebon_proof_request(userState.data.manufacturer_connection_id)
 
+  const redirectUrl = "https://warranty-demo.ssi.eecc.de?id=" + demoUserID
+  console.log("send_ebon_proof_request triggered via link for user id " + demoUserID + ". Redirecting to " + redirectUrl)
+  res.redirect(redirectUrl)
 })
 
 controllerApp.get('/api/getDemoState', async (req, res) => {
