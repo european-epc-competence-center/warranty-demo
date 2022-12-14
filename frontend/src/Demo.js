@@ -32,8 +32,10 @@ const BACKEND_URL = config.BACKEND_URL
 
 const restartDemoAfter = 60
 
+var restartTimer = restartDemoAfter
+
 const Demo = () => {
-  console.log("Backend URL: " + BACKEND_URL);
+  // console.log("Backend URL: " + BACKEND_URL);
 
   const [intervalID, setIntervalID] = useState(null)
   const [demoState, setDemoState] = useState({
@@ -52,8 +54,6 @@ const Demo = () => {
   const [activeSubTab, setActiveSubTab] = useState('0')
 
   const [demoStateReturned, setdemoStateReturned] = useState(true)
-
-  const [restartTimer, setRestartTimer] = useState(restartDemoAfter)
 
   useEffect(() => {
     if (intervalID) {
@@ -132,12 +132,13 @@ const Demo = () => {
       case 'ONLINE_ID_PRESENTATION_VERIFIED_BY_MANUFACTURER':
         setActiveSubTab('2')
         if (restartTimer >= restartDemoAfter) {
-          setRestartTimer(restartDemoAfter - 1)
+          restartTimer = restartDemoAfter - 1
           setInterval(async () => {
             if (restartTimer <= 0) {
               reloadPage()
             }
-            setRestartTimer(restartTimer - 1)
+            restartTimer = restartTimer - 1
+            console.log(restartTimer)
           }, 1000)
         }
         break
