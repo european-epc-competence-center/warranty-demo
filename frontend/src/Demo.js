@@ -33,6 +33,7 @@ const BACKEND_URL = config.BACKEND_URL
 const restartDemoAfter = 60
 
 var restartTimer = restartDemoAfter
+var getDemoStateInFlight = false
 
 const Demo = () => {
   // console.log("Backend URL: " + BACKEND_URL);
@@ -53,8 +54,6 @@ const Demo = () => {
 
   const [activeSubTab, setActiveSubTab] = useState('0')
 
-  const [demoStateReturned, setdemoStateReturned] = useState(true)
-
   useEffect(() => {
     if (intervalID) {
       clearInterval(intervalID)
@@ -62,14 +61,14 @@ const Demo = () => {
 
     setIntervalID(
       setInterval(async () => {
-        if (!demoStateReturned) {
+        if (getDemoStateInFlight) {
           return;
         }
-        setdemoStateReturned(false)
+        getDemoStateInFlight = true
         const res = await axios.get(BACKEND_URL + '/api/getDemoState', {
           params: { demo_user_id: demoUserID }
         })
-        setdemoStateReturned(true)
+        getDemoStateInFlight = false
         const recievedData = res.data
 
         if (recievedData && recievedData.data) {
