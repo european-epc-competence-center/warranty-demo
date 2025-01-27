@@ -201,18 +201,13 @@ const MainAccordion = props => {
               you might not yet have an SSI wallet compatible with the exact version of this rapidly developing technology on your mobile phone yet.
             </p>
             <p>
-              The simplest way to get one
-              is to use the{' '}
-              <a href='https://lissi.id/' target='_blank' rel='noreferrer'>
-                Lissi Mobile Wallet
-              </a>{' '}
-              . Please install this app now. You can safely delete it after the demo.
+              The simplest way to get one is to use the esatus Wallet. Please install this app now. You can safely delete it after the demo.
             </p>
             <div className='d-flex flex-row align-items-center row justify-content-center mb-2'>
               <div className='d-flex flex-column align-items-center col-md-3 p-3'>
-                {!isMobile ? <QRCode size={140} value={'https://play.google.com/store/apps/details?id=io.lissi.mobile.android'} /> : ''}
+                {!isMobile ? <QRCode size={140} value={'https://play.google.com/store/apps/details?id=com.esatus.wallet'} /> : ''}
                 <a
-                  href='https://play.google.com/store/apps/details?id=io.lissi.mobile.android'
+                  href='https://play.google.com/store/apps/details?id=com.esatus.wallet'
                   target='_blank'
                   rel='noreferrer'
                   className='mt-1 shadow'
@@ -221,9 +216,9 @@ const MainAccordion = props => {
                 </a>
               </div>
               <div className='d-flex flex-column align-items-center col-md-3 p-3'>
-                {!isMobile ? <QRCode size={140} value={'https://apps.apple.com/app/lissi-wallet/id1529848685'} /> : ''}
+                {!isMobile ? <QRCode size={140} value={'https://apps.apple.com/de/app/esatus-wallet/id1496769057'} /> : ''}
                 <a
-                  href='https://apps.apple.com/app/lissi-wallet/id1529848685'
+                  href='https://apps.apple.com/de/app/esatus-wallet/id1496769057'
                   target='_blank'
                   rel='noreferrer'
                   className='mt-1 shadow'
