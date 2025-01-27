@@ -227,6 +227,9 @@ const MainAccordion = props => {
                 </a>
               </div>
             </div>
+            <p>
+              If you are using the esatus App, please make sure to select the "IDunion Test Ledger" under settings - Ledger.
+            </p>
 
             <p>
               This Demo can be viewed on a big screen, interacting with your mobile wallet through QR code scans.
